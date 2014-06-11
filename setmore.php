@@ -325,7 +325,7 @@ function setmore_settings_page() {
 
 		<h3>Shortcode</h3>
 		
-		<p><code>[setmore_iframe]</code> will place the SetMore scheduler on a page.</p>
+		<p><span class="code">[setmore_iframe]</span> will place the SetMore scheduler on a page.</p>
 		
 		<h3>Where can I find my Booking Page URL?</h3>
 
