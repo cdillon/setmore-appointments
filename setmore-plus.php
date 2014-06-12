@@ -1,13 +1,13 @@
 <?php
 /*
-	Plugin Name: SetMore Appointments
-	Plugin URI: http://setmore.com/
-	Description: SetMore Appointments – Take customer appointments online for free.
+	Plugin Name: SetMore Plus
+	Plugin URI: http://www.wpmission.com/plugins/
+	Description: SetMore Plus – Take customer appointments online for free.
 	Version: 2.0
 	Author: Chris Dillon
 	Author URI: http://www.wpmission.com
-	Forked From: version 1.0 by David Raffauf of SetMore Appointments at http://setmore.com
-	Text Domain: setmore-appointments
+	Forked From: Version 1.0 by David Raffauf of SetMore Appointments at http://setmore.com
+	Text Domain: setmore-plus
 	Requires: 3.3 or higher
 	License: GPLv3 or later
 
@@ -29,7 +29,7 @@
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SETMORE_NAME', 'setmore-appointments' );
+define( 'SETMORE_NAME', 'setmore-plus' );
 
 /*----------------------------------------------------------------------------*
  * Activation / Deactivation Hooks
@@ -61,7 +61,7 @@ add_filter( 'plugin_action_links', 'setmore_action_links', 10, 2 );
 // Create an admin menu and register settings
 if ( is_admin() ) {
 	function setmore_admin_menu() {
-		add_options_page('SetMore Appointments Options', 'SetMore', 'administrator', 'setmore', 'setmore_settings_page');
+		add_options_page( 'SetMore Plus Options', 'SetMore Plus', 'administrator', 'setmore-plus', 'setmore_settings_page' );
 	}
 	add_action( 'admin_menu', 'setmore_admin_menu' );
 	add_action( 'admin_init', 'setmore_register_settings' );
@@ -114,7 +114,7 @@ class Setmore_Widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			'setmore_widget',  // base ID
-			__( 'SetMore', SETMORE_NAME ),  // name
+			__( 'SetMore Plus', SETMORE_NAME ),  // name
 			array( 'description' => __( 'Add a "Book Appointment" button.', SETMORE_NAME ) )  // args
 		);
 	}
@@ -299,7 +299,7 @@ function setmore_settings_page() {
 	?>
 	<div class="wrap">
 	
-		<h2>SetMore Appointments Options</h2>
+		<h2>SetMore Plus Options</h2>
 
 		<form method="post" action="options.php">
 			<?php settings_fields( 'setmore-settings-group' ); ?>
