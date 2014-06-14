@@ -51,7 +51,7 @@ function setmore_action_links( $links, $file ) {
 	$this_plugin = plugin_basename( __FILE__ );
 
 	if ( $file == $this_plugin ){
-		$settings_link = '<a href="options-general.php?page=setmore">' . __( 'Settings', SETMORE_NAME ) . '</a>';
+		$settings_link = '<a href="options-general.php?page=setmore-plus.php">' . __( 'Settings', SETMORE_NAME ) . '</a>';
 		array_unshift( $links, $settings_link );
 	}
 	return $links;
