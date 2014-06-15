@@ -15,11 +15,7 @@ SetMore Plus by [WPMission](http://www.wpmission.com) may not be the official pl
 
 = About SetMore Appointments =
 
-SetMore helps you manage appointments, schedules and customers, all through an easy-to-use web application. Your customers can book online, and pick their favorite staff, service and time slot without picking up the phone. Learn more at http://setmore.com.
-
-= Getting Started with a Free Account =
-
-Signing up is easy and fast with no credit card needed. Once you have an account, you are ready to take appointments. To get a free SetMore account simply visit http://setmore.com.
+SetMore offers easy online appointments. This plugin is offered by [WP Mission](http://www.wpmission.com). We have no affiliation with SetMore Appointments and provide no technical support for their service. We do, however, provide lifetime support for this plugin, including [free help](http://www.wpmission.com/contact) getting the "Book Appointment" button to match your theme.
 
 == Installation ==
 
@@ -36,7 +32,7 @@ then
 1. In another browser tab, sign in to [my.setmore.com](http://my.setmore.com).
 1. Copy your Booking Page URL from your "Profile" tab.
 1. Paste that URL into the `SetMore Booking URL` field in WordPress. Remember to "Save Changes".
-1. Use the widget to add a "Book Appointment" button to a sidebar, or use the shortcode `[setmore_iframe]` to add the scheduler to a page.
+1. Use the widget to add a "Book Appointment" button to a sidebar, or use the shortcode `[setmoreplus]` to add the scheduler to a page.
 
 == Frequently Asked Questions ==
 
@@ -67,6 +63,9 @@ a.setmore:hover {
 
 == Changelog ==
 
+= 2.1 =
+* Improved settings page.
+
 = 2.0 =
 * Forked from SetMore Appointments 1.0.
 * Updated for WordPress 3.9. New minimum version 3.3.
@@ -79,6 +78,9 @@ a.setmore:hover {
 * This is the first version.
 
 == Upgrade Notice ==
+
+= 2.1 =
+Improved settings page.
 
 = 2.0 =
 Updated for WordPress 3.9. Improved widget options.
