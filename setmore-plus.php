@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SetMore Plus
  * Plugin URI: http://www.wpmission.com/plugins/setmore-plus
- * Description: Take customer appointments online for free.
+ * Description: Easy online appointments.
  * Version: 2.2
  * Author: Chris Dillon
  * Author URI: http://www.wpmission.com
@@ -34,8 +34,6 @@ class SetmorePlus {
 	
 		load_plugin_textdomain( 'setmore-plus', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 		
-		// register_activation_hook( __FILE__, array( $this, 'install' ) );
-		
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_init', array( $this, 'default_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
@@ -44,14 +42,6 @@ class SetmorePlus {
 		add_action( 'init', array( $this, 'register_shortcodes' ) );
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
-	}
-
-	public function install() {
-		$options = array(
-				'url' => '',
-				'lnt' => 1
-		);
-		add_option( 'setmoreplus', $options );
 	}
 
 	/*

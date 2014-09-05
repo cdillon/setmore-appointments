@@ -1,19 +1,19 @@
 === SetMore Plus ===
 Contributors: cdillon27
-Tags: appointments, book, booking, calendar, free, online, salon, spa, schedule, scheduling
+Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.3
 Tested up to: 4.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Let your customers book appointments directly on your website using SetMore Appointments.
+Easy online appointments.
 
 == Description ==
 
 SetMore Plus by [WP Mission](http://www.wpmission.com) may not be the official plugin for [SetMore Appointments](http://setmore.com) but my clients like it better :)
 
-SetMore offers easy online appointments. Use a **widget** to place a "Book Appointments" button on your website or use a **shortcode** to place the SetMore scheduler on a page.
+SetMore offers easy online appointments. Use a **widget** to place a "Book Appointments" button on your website or **shortcode** to place the SetMore scheduler on a page.
 
 *This plugin is offered by [WP Mission](http://www.wpmission.com). We have no affiliation with SetMore Appointments and provide no technical support for their service.*
 
