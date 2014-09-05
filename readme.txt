@@ -19,6 +19,8 @@ SetMore offers easy online appointments. Use a **widget** to place a "Book Appoi
 
 We do, however, provide lifetime support for this plugin, including [free help](http://www.wpmission.com/contact) getting the "Book Appointment" button to match your theme.
 
+This plugin will *leave no trace!* If you delete the plugin, all settings will be removed from the database. Guaranteed. However, simply deactivating it will leave your settings in place, as expected.
+
 = Recommended =
 
 * [Simple Custom CSS](http://wordpress.org/plugins/simple-custom-css/) (fully compatible)
@@ -95,6 +97,12 @@ a.setmore:hover {
 `
 
 Need help? Use the [support forum](http://wordpress.org/support/plugin/setmore-plus) or [contact me](http://www.wpmission.com/contact).
+
+= Leave no trace? What's that about? =
+
+Some plugins and themes don't fully uninstall everything they installed - things like settings, database tables, subdirectories. That bugs me. Sometimes, it bugs your WordPress too.
+
+So this plugin will completely remove itself upon deletion. Deactivating the plugin will leave the settings intact. You can also switch off "Leave No Trace" so the settings remain after deletion, if you want.
 
 
 == Changelog ==
