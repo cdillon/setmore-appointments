@@ -103,6 +103,9 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Changelog ==
 
+= 2.3 =
+* Add a button option to the shortcode; i.e. `[setmoreplus button]` or `[setmoreplus button]Button Text[/setmoreplus]`.
+
 = 2.2.2 =
 * Add filter to exempt shortcode from wptexturize in WordPress 4.0.1+.
 
@@ -131,17 +134,5 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Upgrade Notice ==
 
-= 2.2.2 =
-Compatible with WordPress 4.0.1.
-
-= 2.2.1 =
-Fixed a bug in shortcode.
-
-= 2.2 =
-Leave No Trace.
-
-= 2.1 =
-Improved settings page.
-
-= 2.0 =
-Updated for WordPress 3.9. Improved widget options.
+= 2.3 =
+Display the popup scheduler using `[setmoreplus button]` or `[setmoreplus button]Button Text[/setmoreplus]`.

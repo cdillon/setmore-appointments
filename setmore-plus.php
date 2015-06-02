@@ -3,7 +3,7 @@
  * Plugin Name: SetMore Plus
  * Plugin URI: http://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments.
- * Version: 2.2.2
+ * Version: 2.3
  * Author: Chris Dillon
  * Author URI: http://www.wpmission.com
  * Text Domain: setmore-plus
@@ -171,12 +171,26 @@ class SetmorePlus {
 		register_widget( 'SetmorePlus_Widget' );
 	}
 
-	public function iframe_function() {
+	public function iframe_function( $atts, $content = '' ) {
+		extract( shortcode_atts(
+			array( 'button' => '' ),
+			$this->normalize_empty_atts( $atts ), 'setmoreplus'
+		) );
+
 		$options = get_option( 'setmoreplus' );
-		$html = '<iframe src="' . $options['url'] . '" width="600" height="750" frameborder="0"></iframe>';
+		
+		if ( $button ) {
+			if ( !$content ) {
+				$content = 'Book Appointment';
+			}
+			$html = '<a class="setmore iframe" href="' . $options['url'] . '">' . $content . '</a>';
+		}
+		else {
+			$html = '<iframe src="' . $options['url'] . '" width="600" height="750" frameborder="0"></iframe>';
+		}
 		return $html;
 	}
-
+	
 	public function register_shortcodes() {
 		add_shortcode( 'setmoreplus', array( $this, 'iframe_function' ) );
 	}
@@ -190,6 +204,26 @@ class SetmorePlus {
 	public function shortcodes_to_exempt_from_wptexturize( $shortcodes ) {
 		$shortcodes[] = 'setmoreplus';
 		return $shortcodes;
+	}
+	
+	/**
+	 * Normalize empty shortcode attributes.
+	 *
+	 * Turns atts into tags - brilliant!
+	 * Thanks http://wordpress.stackexchange.com/a/123073/32076
+	 *
+	 * @since 2.3.0
+	 */
+	public function normalize_empty_atts( $atts ) {
+		if ( ! empty( $atts ) ) {
+			foreach ( $atts as $attribute => $value ) {
+				if ( is_int( $attribute ) ) {
+					$atts[ strtolower( $value ) ] = true;
+					unset( $atts[ $attribute ] );
+				}
+			}
+			return $atts;
+		}
 	}
 	
 }
