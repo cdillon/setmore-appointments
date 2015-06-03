@@ -10,7 +10,7 @@
  * Requires: 3.3 or higher
  * License: GPLv3 or later
  *
- * Copyright 2014  Chris Dillon  chris@wpmission.com
+ * Copyright 2014-2015  Chris Dillon  chris@wpmission.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 
 class SetmorePlus {
@@ -34,15 +34,70 @@ class SetmorePlus {
 	
 		load_plugin_textdomain( 'setmore-plus', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 		
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
+		
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+
+		// add_action( 'admin_menu', 'smp_add_admin_menu' );
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		// add_action( 'admin_init', 'smp_settings_init' );
+		add_action( 'admin_init', array( $this, 'settings_init' ) );
+		
 		add_action( 'admin_init', array( $this, 'default_settings' ) );
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+
 		add_filter( 'no_texturize_shortcodes', array( $this, 'shortcodes_to_exempt_from_wptexturize' ) );
 		
 		add_action( 'init', array( $this, 'register_shortcodes' ) );
+		
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
+	}
+	
+	public function admin_scripts( $hook ) {
+		if ( 'widgets.php' == $hook ) {
+			wp_enqueue_style( 'setmoreplus-widget-style', plugins_url( 'css/widget.css', __FILE__ ) );
+			wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/widget-admin.css', __FILE__ ) );
+		}
+		elseif ( 'settings_page_setmoreplus' == $hook ) {
+			wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/admin.css', __FILE__ ) );
+		}
+	}
 
+	/**
+	 * Load lightbox if page contains our shortcode.
+	 */
+	public function load_scripts() {
+		global $post;
+		if ( $post ) {
+			if ( has_shortcode( $post->post_content, 'setmoreplus' ) ) {
+				wp_enqueue_style( 'colorbox-style', plugins_url( 'colorbox/colorbox.css', __FILE__ ) );
+				wp_enqueue_script( 'colorbox-script', plugins_url( 'colorbox/jquery.colorbox-min.js', __FILE__ ), array( 'jquery' ) );
+				// add_action( 'wp_footer', array( $this, 'popup_script' ), 50 );
+			}
+		}
+	}
+	
+	/**
+	 * Display lightbox
+	 *
+	 * @since 2.3.0
+	 */
+	public function popup_script( $width = 540, $height = 680 ) {
+		?>
+		<script>
+		jQuery(document).ready(function($) {
+			$(".setmore.iframe").colorbox({
+				'iframe'     : true,
+				'transition' : 'elastic',
+				'speed'      : 200,
+				'height'     : <?php echo $height; ?>,
+				'width'      : <?php echo $width; ?>,
+				'opacity'    : 0.8,
+			});
+		});
+		</script>
+		<?php
 	}
 
 	/*
@@ -55,7 +110,9 @@ class SetmorePlus {
 
 		$default_options = array(
 			'url' => '',
-			'lnt' => 1
+			'width' => 540,
+			'height' => 680,
+			'lnt' => 1,
 		);
 
 		// Updating from 2.1
@@ -86,82 +143,172 @@ class SetmorePlus {
 	 */
 	public function plugin_action_links( $links, $file ) {
 		if ( $file == plugin_basename( __FILE__ ) ){
-			$settings_link = '<a href="options-general.php?page=setmore-plus.php">' . __( 'Settings', 'setmore-plus' ) . '</a>';
+			$settings_link = '<a href="options-general.php?page=setmoreplus">' . __( 'Settings', 'setmore-plus' ) . '</a>';
 			array_unshift( $links, $settings_link );
 		}
 		return $links;
 	}
 	
-	public function add_options_page() {
-		add_options_page( 'SetMore Plus Options', 'SetMore Plus', 'manage_options', basename( __FILE__ ), array( $this, 'settings_page' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-	}
+	public function add_admin_menu() {
+		// add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);
+		// add_options_page( 'setmoreplus', 'setmoreplus', 'manage_options', 'setmoreplus', 'setmoreplus_options_page' );
+		add_options_page( 'SetMore Plus Options', 'SetMore Plus', 'manage_options', 'setmoreplus', array( $this, 'options_page' ) );
+}
 	
-	public function register_settings() {
-		register_setting( 'setmoreplus-settings-group', 'setmoreplus', array( $this, 'sanitize_options' ) );
+	public function settings_init() {
+		
+		// register_setting( $option_group, $option_name, $sanitize_callback );
+		register_setting( 'setmoreplus_group', 'setmoreplus', array( $this, 'sanitize_options' ) );
+		
+		// add_settings_section( $id, $title, $callback, $page );
+		add_settings_section( 
+			'setmoreplus_section', 
+			'', 
+			array( $this, 'render_setmoreplus_section' ), 
+			'setmoreplus_group'
+		);
+
+		// add_settings_field( $id, $title, $callback, $page, $section, $args );
+		add_settings_field(
+			'setmoreplus-url',
+			'Your SetMore URL',
+			array( $this, 'render_setting_url' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+			);
+		
+		add_settings_field(
+			'setmoreplus-width',
+			'Popup width',
+			array( $this, 'render_setting_width' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+		);
+		
+		add_settings_field(
+			'setmoreplus-height',
+			'Popup height',
+			array( $this, 'render_setting_height' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+		);
+		
+		/*
+		add_settings_field(
+			'setmoreplus-lnt',
+			'',
+			array( $this, 'render_setting_lnt' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+		);
+		*/
+		
 	}
 
 	public function sanitize_options( $input ) {
 		$input['url'] = sanitize_text_field( $input['url'] );
-		$input['lnt'] = isset( $input['lnt'] ) ? 1 : 0;
+		$input['width'] = sanitize_text_field( $input['width'] );
+		$input['height'] = sanitize_text_field( $input['height'] );
+		$input['lnt'] = isset( $input['lnt'] ) ? $input['lnt'] : 0;
 		return $input;
 	}
 
-	public function admin_scripts( $hook ) {
-		if ( 'widgets.php' == $hook ) {
-			wp_enqueue_style( 'setmoreplus-widget-style', plugins_url( 'css/widget.css', __FILE__ ) );
-			wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/widget-admin.css', __FILE__ ) );
-		}
-		elseif ( 'settings_page_setmore-plus' == $hook ) {
-			wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/admin.css', __FILE__ ) );
-		}
+	public function render_setmoreplus_section() {
+		?>
+		<h2>SetMore Plus</h2>
+			
+		<p><em>This plugin is offered by <a href="https://www.wpmission.com" target="_blank">WP Mission</a>. We have no affiliation with SetMore Appointments and provide no technical support for their service.</em></p>
+		<p>We do, however, provide lifetime support for this plugin, including <a href="https://www.wpmission.com/contact" target="_blank">free help</a> getting the "Book Appointment" button to match your theme.</p>
+		
+		<hr>
+		<?php
 	}
+	
+	public function render_setting_url() {
+		$options = get_option( 'setmoreplus' );
+		?>
+		<input type="text" id="setmoreplus_url" name="setmoreplus[url]" style="width: 310px;" value="<?php echo $options['url']; ?>" placeholder="SetMore Booking Page URL" />
 
-	public function settings_page() {
+		<p class="help">To find your unique URL, <a href="http://my.setmore.com" target="_blank">sign in to SetMore</a> and click on the Profile tab. Or get started with <a href="http://www.setmore.com" target="_blank">a completely free account</a>.</p>
+		<?php
+	}
+	
+	public function render_setting_width() {
+		$options = get_option( 'setmoreplus' );
+		?>
+		<div>
+			<input type="text" id="setmoreplus_width" class="four-digits" name="setmoreplus[width]" value="<? echo $options['width']; ?>" />
+		</div>
+		<?php
+	}
+	
+	public function render_setting_height() {
+		$options = get_option( 'setmoreplus' );
+		?>
+		<div>
+			<input type="text" id="setmoreplus_height" class="four-digits" name="setmoreplus[height]" value="<? echo $options['height']; ?>" />
+		</div>
+		<?php
+	}
+	
+	public function render_setting_lnt() {
+		$options = get_option( 'setmoreplus' );
+		?>
+		<div class="option leave-no-trace">
+			<div class="the-button">
+			<div class="onoffswitch">
+				<input id="myonoffswitch" type="checkbox" name="setmoreplus[lnt]" class="onoffswitch-checkbox" value="1" <?php checked( 1, $options['lnt'] ); ?>>
+				<label class="onoffswitch-label" for="myonoffswitch">
+					<div class="onoffswitch-inner"></div>
+					<div class="onoffswitch-switch"></div>
+				</label>
+			</div>
+			<label for="myonoffswitch"><div class="option-label"><?php _e( 'Leave No Trace', 'setmore-plus' ); ?></div></label>
+			</div>
+			<div class="the-label">
+			<div class="option-desc">
+				<?php _e( 'Deleting this plugin will also delete these settings.', 'setmore-plus' ); ?><br>
+				<?php _e( 'Deactivating it will <strong>not</strong> delete these settings.', 'setmore-plus' ); ?>
+			</div>
+			</div>
+		</div>
+		<?php
+	}
+	
+	public function options_page() {
+		if ( ! current_user_can( 'manage_options' ) )  {
+			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		}
+		
 		$options = get_option( 'setmoreplus' );
 		?>
 		<div class="wrap">
 		
-			<h2>SetMore Plus</h2>
-			
-			<p><em>This plugin is offered by <a href="http://www.wpmission.com" target="_blank">WP Mission</a>. We have no affiliation with SetMore Appointments and provide no technical support for their service.</em> We do, however, provide lifetime support for this plugin, including <a href="http://www.wpmission.com/contact" target="_blank">free help</a> getting the "Book Appointment" button to match your theme.</p>
-			<hr>
-			
-			<h3>Your SetMore Booking URL</h3>
-			
 			<form method="post" action="options.php">
-				<?php settings_fields( 'setmoreplus-settings-group' ); ?>
-				<?php do_settings_sections( 'setmoreplus-settings-group' ); ?>
-				
-				<div>
-					<input type="text" id="setmoreplus_url" name="setmoreplus[url]" style="width: 310px;" value="<?php echo $options['url']; ?>" placeholder="SetMore Booking Page URL">
-					<p>To find your unique URL, <a href="http://my.setmore.com" target="_blank">sign in to SetMore</a> and click on the Profile tab. Or get started with <a href="http://www.setmore.com" target="_blank">a completely free account</a>.</p>
-				</div>
-
-				<div class="option leave-no-trace">
-					<div class="onoffswitch">
-						<input id="myonoffswitch" type="checkbox" name="setmoreplus[lnt]" class="onoffswitch-checkbox" value="1" <?php checked( 1, $options['lnt'] ); ?>>
-						<label class="onoffswitch-label" for="myonoffswitch">
-							<div class="onoffswitch-inner"></div>
-							<div class="onoffswitch-switch"></div>
-						</label>
-					</div>
-					<label for="myonoffswitch"><div class="option-label"><?php _e( 'Leave No Trace', 'wider-admin-menu' ); ?></div></label>
-					<div class="option-desc">
-						<?php _e( 'Deleting this plugin will also delete these settings.', 'wider-admin-menu' ); ?><br>
-						<?php _e( 'Deactivating it will <strong>not</strong> delete these settings.', 'wider-admin-menu' ); ?>
-					</div>
-				</div>
-
+			
+				<?php settings_fields( 'setmoreplus_group' ); ?>
+				<?php do_settings_sections( 'setmoreplus_group' ); ?>
+				<?php $this->render_setting_lnt(); ?>
 				<?php submit_button(); ?>
+				
 			</form>
 			<hr>
 			
 			<h3>To add SetMore to your site</h3>
 			
-			<p>Use a widget to add a "Book Appointment" button that opens a dialog box with the SetMore scheduler.</p>
+			<p>Use a widget to add a "Book Appointment" button that opens the popup scheduler.</p>
 			
-			<p>Or use the <span class="code">[setmoreplus]</span> shortcode to place the SetMore scheduler directly on a page.</p>
+			<p>To <b>embed</b> the SetMore scheduler directly in a page, use the <code>[setmoreplus]</code> shortcode.</p>
+			
+			<p>To add a <b>link</b> to the popup scheduler, use the <code>[setmoreplus link]</code> shortcode.</p>
+			<p>To add a <b>button</b> to the popup scheduler, use the <code>[setmoreplus button]</code> shortcode.</p>
+			<p>With <code>link</code> or <code>button</code>, you can customize the link or button text:
+				<blockquote><code>[setmoreplus button]Make an appointment today![/setmoreplus]</code></blockquote>
+				add a CSS class:
+				<blockquote><code>[setmoreplus button class="blue"]</code></blockquote>
+				and/or override the default width and height settings:
+				<blockquote><code>[setmoreplus button width="800" height="650"]</code></blockquote>
+			</p>
 			
 		</div>
 		<?php
@@ -171,28 +318,41 @@ class SetmorePlus {
 		register_widget( 'SetmorePlus_Widget' );
 	}
 
-	public function iframe_function( $atts, $content = '' ) {
+	public function render_popup( $atts, $content = '' ) {
 		extract( shortcode_atts(
-			array( 'button' => '' ),
+			array( 
+					'button' => '',
+					'link' => '',
+					'class' => '',
+					'width' => 600,
+					'height' => 750,
+			),
 			$this->normalize_empty_atts( $atts ), 'setmoreplus'
 		) );
 
+		$this->popup_script( $width, $height );
+		
 		$options = get_option( 'setmoreplus' );
 		
-		if ( $button ) {
-			if ( !$content ) {
-				$content = 'Book Appointment';
-			}
-			$html = '<a class="setmore iframe" href="' . $options['url'] . '">' . $content . '</a>';
+		$content = !$content ? 'Book Appointment' : $content;
+
+		// CSS classes
+		$classes = join( ' ', array_merge( array( 'setmore', 'iframe' ), explode( ' ', $class ) ) );
+		
+		if ( $link ) {
+			$html = '<a class="' . $classes . '" href="' . $options['url'] . '">' . $content . '</a>';
+		}
+		elseif ( $button ) {
+			$html = '<input type="button" class="' . $classes . '" href="' . $options['url'] . '" value="' . $content . '" />';
 		}
 		else {
-			$html = '<iframe src="' . $options['url'] . '" width="600" height="750" frameborder="0"></iframe>';
+			$html = '<iframe src="' . $options['url'] . '" width="' . $width . '" height="' . $height . '" frameborder="0"></iframe>';
 		}
 		return $html;
 	}
 	
 	public function register_shortcodes() {
-		add_shortcode( 'setmoreplus', array( $this, 'iframe_function' ) );
+		add_shortcode( 'setmoreplus', array( $this, 'render_popup' ) );
 	}
 	
 	/**
@@ -362,7 +522,7 @@ class SetmorePlus_Widget extends WP_Widget {
 		?>
 		<script>
 		jQuery(document).ready(function($) { 
-			$(".iframe").colorbox({
+			$(".setmore.iframe").colorbox({
 				'iframe'     : true,
 				'transition' : 'elastic',
 				'speed'      : 200,
