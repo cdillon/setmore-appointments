@@ -1,7 +1,11 @@
-/*
+/**
  * SetMore Plus admin stylesheet
  */
- 
+
+button.demo {
+	font-size: 0.9em;
+}
+
 /* Leave No Trace */
 
 .option {
