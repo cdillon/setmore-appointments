@@ -242,7 +242,7 @@ class SetmorePlus {
 			
 			<h3>How to add SetMore to your site</h3>
 			
-			<p>Use a <b>widget</b> to add a <button class="demo">Book Appointment</button> button that opens the popup scheduler.</p>
+			<p>Use the <b>widget</b> to add a <button class="demo">Book Appointment</button> button that opens the popup scheduler.</p>
 			
 			<p>To <b>embed</b> the SetMore scheduler directly in a page, use the <code>[setmoreplus]</code> shortcode.</p>
 			
@@ -250,13 +250,14 @@ class SetmorePlus {
 			
 			<p>To add a <b>button</b> to the popup scheduler, use the <code>[setmoreplus button]</code> shortcode.</p>
 			
-			<p>With <code>link</code> or <code>button</code>, you can customize the link or button text:
+			<p><em>The link and the button will be styled by your theme.</em></p>
+			
+			<p>With <code>link</code> or <code>button</code>, you can customize the link or button text:</p>
 				<blockquote><code>[setmoreplus button]Make an appointment today![/setmoreplus]</code></blockquote>
-				add a custom CSS class:
+			<p>add a custom CSS class from your theme:</p>
 				<blockquote><code>[setmoreplus button class="blue"]</code></blockquote>
-				and/or override the default width and height settings:
+			<p>and/or override the default width and height of the popup:</p>
 				<blockquote><code>[setmoreplus button width="800" height="650"]</code></blockquote>
-			</p>
 			
 		</div>
 		<?php
