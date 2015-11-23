@@ -1,8 +1,8 @@
 === SetMore Plus ===
 Contributors: cdillon27
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
-Requires at least: 3.3
-Tested up to: 4.3
+Requires at least: 3.5
+Tested up to: 4.4
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -33,19 +33,11 @@ Can you help? [Contact me](https://www.wpmission.com/contact/).
 
 == Installation ==
 
-Option A: 
-
 1. Go to `Plugins > Add New`.
 1. Search for "setmore plus".
 1. Click "Install Now".
 
-Option B: 
-
-1. Download the zip file.
-1. Unzip it on your hard drive.
-1. Upload the `setmore-plus` folder to the `/wp-content/plugins/` directory.
-
-Option C:
+OR
 
 1. Download the zip file.
 1. Upload the zip file via `Plugins > Add New > Upload`.
@@ -55,8 +47,8 @@ Finally, activate the plugin.
 1. Go to `Settings > SetMore Plus`.
 1. In another browser tab, sign in to [my.setmore.com](http://my.setmore.com).
 1. Copy your Booking Page URL from your "Profile" tab.
-1. Paste that URL into the `SetMore Booking URL` field in WordPress. Remember to "Save Changes".
-1. Use the widget or the shortcode.
+1. Paste that URL into the `SetMore Booking URL` field in WordPress.
+1. Add the widget to a sidebar, the shortcode to a page, or a custom link to a menu.
 
 Need help? Use the [support forum](http://wordpress.org/support/plugin/strong-testimonials) or [contact me](https://www.wpmission.com/contact/).
 
@@ -69,7 +61,7 @@ Visit [SetMore](http://setmore.com) to get your free account. A [premium plan](h
 
 = How do I change the "Book Appointment" button? =
 
-In the widget, you can select the default image button, a trendy flat button, or a plain link. 
+In the widget, you can select the default image button, a trendy flat button, or a plain link.
 
 To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Simple Custom CSS](http://wordpress.org/plugins/simple-custom-css/).
 
@@ -103,6 +95,11 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Changelog ==
 
+= 3.0 =
+* Add option for a menu link to the popup.
+* Remove shortcode width & height attributes.
+* Improve admin screen.
+
 = 2.3 =
 * More shortcode options.
 
@@ -131,8 +128,7 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 = 1.0 =
 * This is the first version.
 
-
 == Upgrade Notice ==
 
-= 2.3 =
-More shortcode options including setting the size of the popup window.
+= 3.0 =
+Menu link option for the popup.
