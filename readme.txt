@@ -1,5 +1,6 @@
 === SetMore Plus ===
 Contributors: cdillon27
+Donate link: https://www.wpmission.com/donate/
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
 Tested up to: 4.4
@@ -94,6 +95,9 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 
 == Changelog ==
+
+= 3.1 =
+* Fix bug in iframe.
 
 = 3.0 =
 * Add option for a menu link to the popup.
