@@ -301,7 +301,7 @@ class SetmorePlus {
 		} else {
 
 			// load an iframe in the page
-			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $options['url'], $width, $height );
+			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $options['url'], $options['width'], $options['height'] );
 
 		}
 		return $html;
