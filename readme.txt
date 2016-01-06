@@ -96,6 +96,9 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Changelog ==
 
+= 3.2 =
+* Fix bug when using shortcode and widget on same page.
+
 = 3.1 =
 * Fix bug in iframe.
 
@@ -134,5 +137,5 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Upgrade Notice ==
 
-= 3.0 =
-Menu link option for the popup.
+= 3.2 =
+Fix bugs. Menu link option for the popup.

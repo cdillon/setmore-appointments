@@ -3,8 +3,8 @@
  *
  * Default style for SetMore link to iframe lightbox.
  */
- 
-a.setmore {
+
+.widget a.setmore {
 	background: #ddd;
 	border-radius: 20px;
 	color: #333;
@@ -15,7 +15,7 @@ a.setmore {
 	text-shadow: 1px 1px 1px rgba(255,255,255,0.9);
 }
 
-a.setmore:hover {
+.widget a.setmore:hover {
 	background: #eee;
 	color: #000;
 	text-decoration: none;

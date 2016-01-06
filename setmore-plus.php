@@ -3,7 +3,7 @@
  * Plugin Name: SetMore Plus
  * Plugin URI: https://www.wpmission.com/plugin/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.1
+ * Version: 3.2
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
@@ -27,7 +27,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 class SetmorePlus {
 
 	function __construct() {
@@ -42,41 +41,53 @@ class SetmorePlus {
 
 		load_plugin_textdomain( 'setmore-plus', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		if ( is_admin() ) {
+			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+			add_action( 'admin_init', array( $this, 'settings_init' ) );
+			add_action( 'admin_init', array( $this, 'default_settings' ) );
 
-		add_action( 'admin_init', array( $this, 'settings_init' ) );
-		add_action( 'admin_init', array( $this, 'default_settings' ) );
+			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_admin_scripts' ) );
+			// Loading Colorbox to show a screenshot in a popup, not for the scheduler.
+			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_colorbox' ) );
+			add_action( 'load-widgets.php', array( $this, 'load_widget_scripts' ) );
+
+			add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+		}
 
 		add_action( 'init', array( $this, 'register_shortcodes' ) );
 
+		add_filter( 'no_texturize_shortcodes', array( $this, 'shortcodes_to_exempt_from_wptexturize' ) );
+
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
-		add_action( 'load-widgets.php', array( $this, 'load_widget_scripts' ) );
-
-		add_action( 'load-settings_page_setmoreplus', array( $this, 'load_settings_scripts' ) );
-
-		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-
-		add_filter( 'no_texturize_shortcodes', array( $this, 'shortcodes_to_exempt_from_wptexturize' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_colorbox' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
 
 		/**
 		 * Show the popup from a menu link.
 		 *
 		 * @since 3.0
 		 */
-		add_action( 'wp', array( $this, 'popup_script' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'setmoreplus_script' ), 20 );
 
+	}
+
+	public function load_colorbox() {
+		wp_enqueue_style( 'colorbox-style', SETMOREPLUS_URL . 'inc/colorbox/colorbox.css' );
+		wp_enqueue_script( 'colorbox-script', SETMOREPLUS_URL . 'inc/colorbox/jquery.colorbox-min.js', array( 'jquery' ), false, true );
+	}
+
+	public function load_scripts() {
+		wp_enqueue_script( 'setmoreplus-script', SETMOREPLUS_URL . 'js/setmoreplus.js', array( 'colorbox-script' ), false, true );
+	}
+
+	public function load_admin_scripts() {
+		wp_enqueue_style( 'setmoreplus-admin', plugins_url( 'css/admin.css', __FILE__ ) );
 	}
 
 	public function load_widget_scripts() {
-		wp_enqueue_style( 'setmoreplus-widget-style', plugins_url( 'css/widget.css', __FILE__ ) );
 		wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/widget-admin.css', __FILE__ ) );
-	}
-
-	public function load_settings_scripts() {
-		wp_enqueue_style( 'setmoreplus-admin', plugins_url( 'css/admin.css', __FILE__ ) );
-		wp_enqueue_style( 'colorbox-style', SETMOREPLUS_URL . 'inc/colorbox/colorbox.css' );
-		wp_enqueue_script( 'colorbox-script', SETMOREPLUS_URL . 'inc/colorbox/jquery.colorbox-min.js', array( 'jquery' ) );
+		wp_enqueue_style( 'setmoreplus-widget-style', plugins_url( 'css/widget.css', __FILE__ ) );
 	}
 
 	public function default_settings() {
@@ -268,7 +279,6 @@ class SetmorePlus {
 
 	public function render_popup( $atts, $content = '' ) {
 		$options = get_option( 'setmoreplus' );
-		$this->popup_script();
 
 		extract( shortcode_atts(
 			array(
@@ -293,12 +303,14 @@ class SetmorePlus {
 
 			$html = sprintf( '<a class="%s" href="%s">%s</a>', $classes, $options['url'], $content );
 
-		} elseif ( $button ) {
+		}
+		elseif ( $button ) {
 
 			// href is not a valid attribute for <input> but Colorbox needs it to load the target page
 			$html = sprintf( '<input type="button" class="%s" href="%s" value="%s" />', $classes, $options['url'], $content );
 
-		} else {
+		}
+		else {
 
 			// load an iframe in the page
 			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $options['url'], $options['width'], $options['height'] );
@@ -312,10 +324,8 @@ class SetmorePlus {
 	 *
 	 * @since 2.3.0
 	 */
-	public function popup_script() {
+	public function setmoreplus_script() {
 		$options = get_option( 'setmoreplus' );
-		wp_enqueue_style( 'colorbox-style', SETMOREPLUS_URL . 'inc/colorbox/colorbox.css' );
-		wp_enqueue_script( 'colorbox-script', SETMOREPLUS_URL . 'inc/colorbox/jquery.colorbox-min.js', array( 'jquery' ) );
 		$var = array(
 			'iframe'      => true,
 			'transition'  => 'elastic',
@@ -327,18 +337,7 @@ class SetmorePlus {
 			'rel'         => false,
 		);
 		wp_localize_script( 'colorbox-script', 'setmoreplus', $var );
-		add_action( 'wp_footer', array( $this, 'call_colorbox' ), 100 );
-	}
-
-	public function call_colorbox() {
-		?>
-		<!-- SetMore Plus plugin -->
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$("a.setmore-iframe").add("input.setmore-iframe").add("li.setmore-iframe > a").colorbox(setmoreplus);
-			});
-		</script>
-		<?php
+		wp_enqueue_script( 'setmoreplus-script' );
 	}
 
 	/**
