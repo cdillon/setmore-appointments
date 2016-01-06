@@ -15,23 +15,9 @@ class SetmorePlus_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$options = get_option( 'setmoreplus' );
 
-		// Load stylesheet and Colorbox, then localize script
 		if ( 'link' == $instance['style'] ) {
 			wp_enqueue_style( 'setmoreplus-widget-style', SETMOREPLUS_URL . 'css/widget.css' );
 		}
-		wp_enqueue_style( 'colorbox-style', SETMOREPLUS_URL . 'inc/colorbox/colorbox.css' );
-		wp_enqueue_script( 'colorbox-script', SETMOREPLUS_URL . 'inc/colorbox/jquery.colorbox-min.js', array( 'jquery' ) );
-
-		$var = array(
-			'iframe'     => true,
-			'transition' => 'elastic',
-			'speed'      => 200,
-			'height'     => $options['height'],
-			'width'      => $options['width'],
-			'opacity'    => 0.8,
-		);
-		wp_localize_script( 'colorbox-script', 'setmoreplus_widget', $var );
-		add_action( 'wp_footer', array( $this, 'call_colorbox' ), 100 );
 
 		// Build the widget
 		$defaults = array( 'link-text' => __( 'Book Appointment', 'setmore-plus' ) );
@@ -144,7 +130,7 @@ class SetmorePlus_Widget extends WP_Widget {
 					<a class="setmore-admin" href="#"><?php echo $link_text; ?></a>
 				</label>
 
-				<p><?php _e( "Unstyled. Add style to <code>a.setmore</code> in your theme's stylesheet.", 'setmore-plus' ); ?></p>
+				<p><?php _e( "Unstyled.<br>Use CSS class: <code>.widget a.setmore</code>", 'setmore-plus' ); ?></p>
 			</li>
 		</ul>
 		<?php
@@ -161,17 +147,4 @@ class SetmorePlus_Widget extends WP_Widget {
 		return $instance;
 	}
 
-	// Script to call lightbox
-	public function call_colorbox() {
-		?>
-		<!-- SetMore Plus plugin -->
-		<script type="text/javascript">
-			jQuery(document).ready(function ($) {
-				$(".widget .setmore-iframe").colorbox(setmoreplus_widget);
-			});
-		</script>
-		<?php
-	}
-
 }
-	
