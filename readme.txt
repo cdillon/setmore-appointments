@@ -3,7 +3,7 @@ Contributors: cdillon27
 Donate link: https://www.wpmission.com/donate/
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.4
+Tested up to: 4.4.1
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,8 +24,8 @@ This plugin will *leave no trace!* If you delete the plugin, all settings will b
 
 = Recommended =
 
-* [Simple Custom CSS](http://wordpress.org/plugins/simple-custom-css/)
-* [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/)
+* [Modular Custom CSS](https://wordpress.org/plugins/modular-custom-css/) for quick CSS tweaks right there in the Customizer.
+* [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e,
 
 = Translations =
 
@@ -64,7 +64,7 @@ Visit [SetMore](http://setmore.com) to get your free account. A [premium plan](h
 
 In the widget, you can select the default image button, a trendy flat button, or a plain link.
 
-To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Simple Custom CSS](http://wordpress.org/plugins/simple-custom-css/).
+To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Modular Custom CSS](https://wordpress.org/plugins/modular-custom-css/).
 
 For example, here's a square blue button with white text:
 `
@@ -95,6 +95,9 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 
 == Changelog ==
+
+= 3.3 =
+* Add option to load scripts in header instead of footer.
 
 = 3.2 =
 * Fix bug when using shortcode and widget on same page.

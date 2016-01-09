@@ -2,7 +2,6 @@
 
 class SetmorePlus_Widget extends WP_Widget {
 
-	// Instantiate
 	function __construct() {
 		parent::__construct(
 			'wpmsmp_widget',  // base ID
@@ -11,7 +10,12 @@ class SetmorePlus_Widget extends WP_Widget {
 		);
 	}
 
-	// Output
+	/**
+	 * Output
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 */
 	public function widget( $args, $instance ) {
 		$options = get_option( 'setmoreplus' );
 
@@ -44,7 +48,8 @@ class SetmorePlus_Widget extends WP_Widget {
 			<a class="setmore-iframe" href="<?php echo $options['url']; ?>">
 				<img border="none" src="<?php echo SETMOREPLUS_URL . 'images/SetMore-book-button.png'; ?>" alt="Book an appointment"></a>
 			<?php
-		} elseif ( 'link' == $data['style'] ) {
+		}
+		elseif ( 'link' == $data['style'] ) {
 			?>
 			<a class="setmore setmore-iframe"
 			   href="<?php echo $options['url']; ?>"><?php _e( $data['link-text'], 'setmore-plus' ); ?></a>
@@ -59,7 +64,12 @@ class SetmorePlus_Widget extends WP_Widget {
 		echo $data['after_widget'];
 	}
 
-	// Options form
+	/**
+	 * Options form
+	 *
+	 * @param array $instance
+	 * @return void
+	 */
 	public function form( $instance ) {
 		$defaults  = array(
 			'title'     => __( '', 'setmore-plus' ),
@@ -136,7 +146,14 @@ class SetmorePlus_Widget extends WP_Widget {
 		<?php
 	}
 
-	// Save settings
+	/**
+	 * Save settings.
+	 *
+	 * @param array $new_instance
+	 * @param array $old_instance
+	 *
+	 * @return array
+	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance              = $old_instance;
 		$instance['title']     = strip_tags( $new_instance['title'] );
