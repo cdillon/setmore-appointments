@@ -16,6 +16,22 @@ button.demo {
 	font-size: 14px;
 }
 
+.wrap.setmore td p {
+	margin: 1em 0.3em;
+}
+
+.wrap.setmore td p:not(.help):last-child {
+	margin-bottom: 0;
+}
+
+.wrap.setmore em.hilite {
+	background: #99FF99;
+	font-style: normal;
+	padding: 0 2px 1px 1px;
+	display: inline-block;
+	line-height: 1;
+}
+
 .wrap.setmore blockquote {
 	font-size: 14px;
 	color: #0000CC;
@@ -25,4 +41,8 @@ button.demo {
 
 .settings-page {
 	margin-top: 2em;
+}
+
+input.four-digits {
+	width: 4em;
 }
