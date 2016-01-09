@@ -17,7 +17,7 @@ button.demo {
 }
 
 .wrap.setmore td p {
-	margin: 1em 0.3em;
+	margin: 0.5em 0.3em;
 }
 
 .wrap.setmore td p:not(.help):last-child {
@@ -32,17 +32,106 @@ button.demo {
 	line-height: 1;
 }
 
-.wrap.setmore blockquote {
-	font-size: 14px;
-	color: #0000CC;
-	font-family: Consolas, monospace;
-	margin-left: 0;
-}
-
 .settings-page {
 	margin-top: 2em;
 }
 
 input.four-digits {
 	width: 4em;
+}
+
+/*--------------------------------------------------*
+ * Staff table
+ *--------------------------------------------------*/
+.table {
+	display: table;
+}
+
+.row {
+	display: table-row;
+}
+
+.cell {
+	display: table-cell;
+}
+
+#staff-urls {
+	margin-top: 7px;
+	width: 100%;
+}
+
+.staff-header .cell {
+	line-height: 1.3;
+	padding-left: 3px;
+	padding-bottom: 3px;
+}
+
+.staff-header .staff-ids {
+	text-align: center;
+	width: 35px;
+}
+
+.staff-row .staff-id {
+	text-align: center;
+	border: 1px solid #DFDFDF;
+	margin: 1px;
+	line-height: 26px;
+	background: #F8F8F8;
+}
+
+.staff-name {
+	width: 10em;
+}
+
+.staff-url input {
+	width: 100%;
+}
+
+.staff-delete {
+	box-sizing: border-box;
+	height: 28px;
+	width: 30px;
+	line-height: 28px;
+	padding: 0 5px;
+}
+
+.staff-delete:before {
+	content: "\f335";
+	font-family: dashicons;
+	text-align: center;
+	font-size: 1.5em;
+	vertical-align: middle;
+}
+
+.staff-delete:hover {
+	color: #CD0000;
+	cursor: pointer;
+}
+
+/*--------------------------------------------------*
+ * Instructions tab
+ *--------------------------------------------------*/
+.setmore-instructions {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.setmore-instructions td {
+	border: 1px solid #DFDFDF;
+}
+
+.setmore-instructions td.code {
+	font-size: 14px;
+	color: #0000CC;
+	font-family: Consolas, monospace;
+	margin-left: 0;
+	padding: 0.5em;
+}
+
+.wrap .setmore-instructions td ol {
+	margin-right: 0.5em;
+}
+
+.wrap .setmore-instructions td p {
+	margin: 0.5em !important;
 }

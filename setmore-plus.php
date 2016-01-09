@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: SetMore Plus
+ * Plugin Name: Setmore Plus
  * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.3
+ * Version: 3.4
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
@@ -42,9 +42,9 @@ class SetmorePlus {
 		load_plugin_textdomain( 'setmore-plus', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 
 		if ( is_admin() ) {
-			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-			add_action( 'admin_init', array( $this, 'settings_init' ) );
 			add_action( 'admin_init', array( $this, 'default_settings' ) );
+			add_action( 'admin_init', array( $this, 'settings_init' ), 20 );
+			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 
 			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_admin_scripts' ) );
 			// Loading Colorbox to show a screenshot in a popup, not for the scheduler.
@@ -64,6 +64,20 @@ class SetmorePlus {
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'setmoreplus_script' ) );
 
+		add_action( 'wp_ajax_setmoreplus_add_url', array( $this, 'add_url_function' ) );
+		add_action( 'wp_ajax_nopriv_setmoreplus_add_url', array( $this, 'add_url_function' ) );
+
+		add_filter( 'setmoreplus_url', array( $this, 'url_filter' ), 10, 2 );
+
+	}
+
+	/**
+	 * [Add New] Ajax receiver
+	 */
+	function add_url_function() {
+		$count = $_REQUEST['count'] + 1;
+		$this->render_staff_url_row( $count );
+		die();
 	}
 
 	public function load_colorbox() {
@@ -79,16 +93,17 @@ class SetmorePlus {
 	}
 
 	public function load_admin_scripts() {
-		wp_enqueue_style( 'setmoreplus-admin', plugins_url( 'css/admin.css', __FILE__ ) );
+		$options = get_option( 'setmoreplus' );
+		wp_enqueue_style( 'setmoreplus-admin', SETMOREPLUS_URL . 'css/admin.css', array(), $options['plugin_version'] );
+		wp_enqueue_script( 'setmoreplus-admin-script', SETMOREPLUS_URL . 'js/setmoreplus-admin.js', array( 'colorbox-script' ), $options['plugin_version'], $options['defer'] );
+		wp_localize_script( 'setmoreplus-admin-script', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 	public function load_widget_scripts() {
 		wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/widget-admin.css', __FILE__ ) );
-		wp_enqueue_style( 'setmoreplus-widget-style', plugins_url( 'css/widget.css', __FILE__ ) );
 	}
 
 	public function default_settings() {
-
 		$plugin_data    = get_plugin_data( __FILE__, false );
 		$plugin_version = $plugin_data['Version'];
 		if ( isset( $options['plugin_version'] ) && $options['plugin_version'] == $plugin_version )
@@ -96,6 +111,7 @@ class SetmorePlus {
 
 		$default_options = array(
 			'url'    => '',
+			'staff_urls' => null,
 			'width'  => 540,
 			'height' => 680,
 			'defer'  => 1,
@@ -110,29 +126,28 @@ class SetmorePlus {
 		}
 
 		$options = get_option( 'setmoreplus' );
-		if ( ! $options ) {
+		if ( !$options ) {
 			// New activation
-			update_option( 'setmoreplus', $default_options );
+			$options = $default_options;
 		}
 		else {
 			// New options
 			$options = array_merge( $default_options, $options );
-			$options['plugin_version'] = $plugin_version;
-			update_option( 'setmoreplus', $options );
 		}
-
+		$options['plugin_version'] = $plugin_version;
+		update_option( 'setmoreplus', $options );
 	}
 
 	public function plugin_action_links( $links, $file ) {
-		if ( $file == plugin_basename( __FILE__ ) ){
-			$settings_link = '<a href="options-general.php?page=setmoreplus">' . __( 'Settings', 'setmore-plus' ) . '</a>';
+		if ( $file == plugin_basename( __FILE__ ) ) {
+			$settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=setmoreplus' ), __( 'Settings', 'setmore-plus' ) );
 			array_unshift( $links, $settings_link );
 		}
 		return $links;
 	}
 
 	public function add_admin_menu() {
-		add_options_page( 'SetMore Plus Options', 'SetMore Plus', 'manage_options', 'setmoreplus', array( $this, 'options_page' ) );
+		add_options_page( 'Setmore Plus', 'Setmore Plus', 'manage_options', 'setmoreplus', array( $this, 'options_page' ) );
 }
 
 	public function settings_init() {
@@ -148,15 +163,23 @@ class SetmorePlus {
 
 		add_settings_field(
 			'setmoreplus-url',
-			'<label for="setmoreplus_url">Your SetMore URL</label>',
+			'<label for="setmoreplus_url">'. __( 'Your Booking Page URL', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_url' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
 		);
 
 		add_settings_field(
+			'setmoreplus-staff-urls',
+			'<label for="setmoreplus_staff_urls">'. __( 'Your Staff Booking Pages', 'setmore-plus' ) . '</label><br><em style="font-weight: 400">(optional)</em>',
+			array( $this, 'render_setting_staff_urls' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+		);
+
+		add_settings_field(
 			'setmoreplus-width',
-			'<label for="setmoreplus_width">Popup Width</label>',
+			'<label for="setmoreplus_width">'. __( 'Popup Width', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_width' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
@@ -164,7 +187,7 @@ class SetmorePlus {
 
 		add_settings_field(
 			'setmoreplus-height',
-			'<label for="setmoreplus_height">Popup Height</label>',
+			'<label for="setmoreplus_height">' . __( 'Popup Height', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_height' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
@@ -172,7 +195,7 @@ class SetmorePlus {
 
 		add_settings_field(
 			'setmoreplus-defer',
-			'<label for="setmoreplus_defer">Script Loading</label>',
+			'<label for="setmoreplus_defer">' . __( 'Script Loading', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_defer' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
@@ -180,7 +203,7 @@ class SetmorePlus {
 
 		add_settings_field(
 			'setmoreplus-lnt',
-			'<label for="setmoreplus_lnt">Leave No Trace</label>',
+			'<label for="setmoreplus_lnt">' . __( 'Leave No Trace', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_lnt' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
@@ -189,24 +212,81 @@ class SetmorePlus {
 	}
 
 	public function sanitize_options( $input ) {
-		$input['url']    = sanitize_text_field( $input['url'] );
-		$input['width']  = sanitize_text_field( $input['width'] );
-		$input['height'] = sanitize_text_field( $input['height'] );
-		$input['defer']  = isset( $input['defer'] ) ? $input['defer'] : 1;
-		$input['lnt']    = isset( $input['lnt'] ) ? $input['lnt'] : 0;
-		return $input;
+		$new['url'] = sanitize_text_field( $input['url'] );
+		if ( isset( $input['staff_urls'] ) ) {
+			// Using independent counter because we cannot actually change the input value in the DOM.
+			$i = 1;
+			foreach ( $input['staff_urls'] as $id => $data ) {
+				if ( $data['name'] && $data['url'] ) {
+					$new['staff_urls'][ $i++ ] = array( 'name' => sanitize_text_field( $data['name'] ), 'url' => sanitize_text_field( $data['url'] ) );
+				}
+			}
+		}
+		else {
+			$new['staff_urls'] = null;
+		}
+		$new['width']  = sanitize_text_field( $input['width'] );
+		$new['height'] = sanitize_text_field( $input['height'] );
+		$new['defer']  = isset( $input['defer'] ) ? $input['defer'] : 1;
+		$new['lnt']    = isset( $input['lnt'] ) ? $input['lnt'] : 0;
+		return $new;
 	}
 
 	public function render_setting_url() {
 		$options = get_option( 'setmoreplus' );
 		?>
-		<input type="text" id="setmoreplus_url" name="setmoreplus[url]" style="width: 310px;" value="<?php echo $options['url']; ?>" placeholder="SetMore Booking Page URL" />
+		<input type="text" id="setmoreplus_url" name="setmoreplus[url]" style="width: 100%;" value="<?php echo $options['url']; ?>" placeholder="<?php _e( 'Setmore Booking Page URL', 'setmore-plus' ); ?>" />
 		<p>
-			To find your unique URL, <a href="http://my.setmore.com" target="_blank">sign in to SetMore</a> and click on the Profile tab. Or get started with <a href="http://www.setmore.com" target="_blank">a completely free account</a>.
+			<?php printf( wp_kses( __( 'To find your unique URL, <a href="%s" target="_blank">sign in to Setmore</a> and click on <b>Profile</b>.', 'setmore-plus' ), array( 'a' => array( 'href' => array(), 'target' => array(), 'class' => array() ), 'b' => array(), ) ), 'http://my.setmore.com' ); ?>
 		</p>
+		<?php
+	}
+
+	public function render_setting_staff_urls() {
+		$options = get_option( 'setmoreplus' );
+		?>
+		<div id="staff-urls" class="table">
+		<div class="row staff-header">
+			<div class="cell staff-ids"><?php _e( 'ID' ); ?></div>
+			<div class="cell"><?php _e( 'Staff Name', 'setmore-plus' ); ?></div>
+			<div class="cell"><?php _e( 'Staff Booking Page URL', 'setmore-plus' ); ?></div>
+		</div>
+		<?php
+		if ( $options['staff_urls'] ) {
+			foreach ( $options['staff_urls'] as $id => $data ) {
+				$this->render_staff_url_row( $id, $data['name'], $data['url'] );
+			}
+		}
+		?>
+		</div>
+		<p><input type="button" class="button" id="add-url" value="<?php _e( 'Add New', 'setmore-plus' ); ?>"></p>
+
 		<p>
-			If your site uses <strong>SSL</strong>, e.g. http<em class="hilite">s</em>://example.com, and the scheduler does not appear in the popup, try entering your SetMore URL without the <code>http:</code> like <code>//example.setmore.com</code>.
+			<?php printf( wp_kses( __( 'To find your individual Staff Booking Pages, <a href="%s" target="_blank">sign in to Setmore</a> and navigate to <b>Settings > Staff</b>.', 'setmore-plus' ), array( 'a' => array( 'href' => array(), 'target' => array(), 'class' => array() ), 'b' => array() ) ), esc_url( 'http://my.setmore.com' ) ); ?>
 		</p>
+		<?php
+	}
+
+	public function render_staff_url_row( $id, $name = '', $url = '' ) {
+		?>
+		<div class="row staff-row">
+			<input type="hidden" class="original-order" value="<? echo $id; ?>">
+			<div class="cell">
+				<div class="staff-id">
+					<?php echo $id; ?>
+				</div>
+			</div>
+			<div class="cell staff-name">
+				<input type="text" name="setmoreplus[staff_urls][<?php echo $id; ?>][name]"
+				       value="<?php echo $name; ?>" placeholder="<?php _e( 'staff name', 'setmore-plus' ); ?>">
+			</div>
+			<div class="cell staff-url">
+				<input type="text" name="setmoreplus[staff_urls][<?php echo $id; ?>][url]"
+				       value="<?php echo $url; ?>"
+				       placeholder="<?php _e( 'Staff Booking Page', 'setmore-plus' ); ?>">
+			</div>
+			<div class="cell staff-delete"></div>
+		</div>
 		<?php
 	}
 
@@ -232,7 +312,7 @@ class SetmorePlus {
 		$options = get_option( 'setmoreplus' );
 		?>
 		<div id="defer">
-			<select id="setmoreplus_defer" name="setmoreplus[defer]" autocomplete="off">
+			<select id="setmoreplus_defer" name="setmoreplus[defer]">
 				<option value="1" <?php selected( $options['defer'], 1 ); ?>>
 					<?php _e( 'Normal (default)', 'setmore-plus' ); ?>
 				</option>
@@ -242,10 +322,8 @@ class SetmorePlus {
 			</select>
 
 			<p>
-				<?php _e( 'Normally, scripts that create popups, sliders, etc. are loaded after the page content has been displayed. This works well in the majority of cases.', 'setmore-plus' ); ?>
-			</p>
-			<p>
-				<?php _e( 'Try <strong>Priority</strong> if your SetMore link does not always produce a popup.', 'setmore-plus' ); ?>
+				<?php _e( '<strong>Normal</strong> works well in the majority of cases.', 'setmore-plus' ); ?>
+				<?php _e( 'Try <strong>Priority</strong> if your Setmore link fails to produce a popup.', 'setmore-plus' ); ?>
 			</p>
 		</div>
 		<?php
@@ -255,7 +333,7 @@ class SetmorePlus {
 		$options = get_option( 'setmoreplus' );
 		?>
 		<div id="leave-no-trace">
-			<select id="setmoreplus_lnt" name="setmoreplus[lnt]" autocomplete="off">
+			<select id="setmoreplus_lnt" name="setmoreplus[lnt]">
 				<option value="1" <?php selected( $options['lnt'], 1 ); ?>>
 					<?php _e( 'Yes - Deleting this plugin will also delete these settings.', 'setmore-plus' ); ?>
 				</option>
@@ -272,22 +350,23 @@ class SetmorePlus {
 	}
 
 	public function options_page() {
-		if ( ! current_user_can( 'manage_options' ) )  {
+		if ( ! current_user_can( 'manage_options' ) )
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
+
 		?>
 		<div class="wrap setmore">
-			<h2><?php _e( 'SetMore Plus', 'setmore-plus' ); ?></h2>
+			<h2><?php _e( 'Setmore Plus', 'setmore-plus' ); ?></h2>
 			<?php
-			$tab  = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
-			$page = '?page=setmoreplus';
+			$tab    = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
+			$screen = get_current_screen();
+			$url    = add_query_arg( 'page', 'setmoreplus', admin_url( $screen->parent_file ) );
 			?>
 			<h2 class="nav-tab-wrapper">
-				<a href="<?php echo $page; ?>" class="nav-tab <?php echo $tab == '' ? 'nav-tab-active' : ''; ?>">
-					<?php _e( 'Settings', 'strong-testimonials' ); ?>
+				<a href="<?php echo $url; ?>" class="nav-tab <?php $this->is_active_tab( $tab, '' ); ?>">
+					<?php _e( 'Settings', 'setmore-plus' ); ?>
 				</a>
-				<a href="<?php echo $page; ?>&tab=instructions" class="nav-tab <?php echo $tab == 'instructions' ? 'nav-tab-active' : ''; ?>">
-					<?php _e( 'Instructions', 'strong-testimonials' ); ?>
+				<a href="<?php echo $url; ?>&tab=instructions" class="nav-tab <?php $this->is_active_tab( $tab, 'instructions' ); ?>">
+					<?php _e( 'Instructions', 'setmore-plus' ); ?>
 				</a>
 			</h2>
 			<?php
@@ -301,6 +380,10 @@ class SetmorePlus {
 			?>
 		</div>
 		<?php
+	}
+
+	public function is_active_tab( $tab, $nav_tab ) {
+		echo $tab == $nav_tab ? 'nav-tab-active' : '';
 	}
 
 	public function register_widget() {
@@ -319,6 +402,7 @@ class SetmorePlus {
 				'button' => '',
 				'link'   => '',
 				'class'  => '',
+				'staff'  => '',
 			),
 			$this->normalize_empty_atts( $atts ), 'setmoreplus'
 		) );
@@ -333,24 +417,53 @@ class SetmorePlus {
 		 */
 		$classes = join( ' ', array_merge( array( 'setmore', 'setmore-iframe' ), explode( ' ', $class ) ) );
 
+		$url = apply_filters( 'setmoreplus_url', $options['url'], $staff );
+
 		if ( $link ) {
 
-			$html = sprintf( '<a class="%s" href="%s">%s</a>', $classes, $options['url'], $content );
+			$html = sprintf( '<a class="%s" href="%s">%s</a>', $classes, $url, $content );
 
 		}
 		elseif ( $button ) {
 
 			// href is not a valid attribute for <input> but Colorbox needs it to load the target page
-			$html = sprintf( '<input type="button" class="%s" href="%s" value="%s" />', $classes, $options['url'], $content );
+			$html = sprintf( '<input type="button" class="%s" href="%s" value="%s" />', $classes, $url, $content );
 
 		}
 		else {
 
 			// load an iframe in the page
-			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $options['url'], $options['width'], $options['height'] );
+			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $url, $options['width'], $options['height'] );
 
 		}
 		return $html;
+	}
+
+	/**
+	 * @param $url
+	 * @param string $staff
+	 * @since 4.0.0
+	 *
+	 * @return mixed
+	 */
+	public function url_filter( $url, $staff = '' ) {
+		$options = get_option( 'setmoreplus' );
+		if ( $staff ) {
+			if ( is_numeric( $staff ) ) {
+				if ( isset( $options['staff_urls'][ $staff ] ) && $options['staff_urls'][ $staff ] ) {
+					$url = $options['staff_urls'][ $staff ]['url'];
+				}
+			}
+			else {
+				foreach ( $options['staff_urls'] as $staff_info ) {
+					if ( strtolower( $staff ) == strtolower( $staff_info['name'] ) ) {
+						$url = $staff_info['url'];
+						break;
+					}
+				}
+			}
+		}
+		return $url;
 	}
 
 	/**
@@ -397,15 +510,15 @@ class SetmorePlus {
 	 * @return array
 	 */
 	public function normalize_empty_atts( $atts ) {
-		if ( ! empty( $atts ) ) {
+		if ( !empty( $atts ) ) {
 			foreach ( $atts as $attribute => $value ) {
 				if ( is_int( $attribute ) ) {
 					$atts[ strtolower( $value ) ] = true;
 					unset( $atts[ $attribute ] );
 				}
 			}
-			return $atts;
 		}
+		return $atts;
 	}
 
 }

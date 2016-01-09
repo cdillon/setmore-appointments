@@ -1,0 +1,285 @@
+# Copyright (C) 2016 Setmore Plus
+# This file is distributed under the same license as the Setmore Plus package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Setmore Plus 3.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/setmore-plus\n"
+"POT-Creation-Date: 2016-02-09 13:51:13+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#. #-#-#-#-#  setmore-plus.pot (Setmore Plus 3.4)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: inc/class-widget.php:9 setmore-plus.php:358
+msgid "Setmore Plus"
+msgstr ""
+
+#: inc/class-widget.php:10
+msgid "Add a \"Book Appointment\" button."
+msgstr ""
+
+#: inc/class-widget.php:28 inc/class-widget.php:81
+msgid "Book Appointment"
+msgstr ""
+
+#: inc/class-widget.php:51
+msgid "Book an appointment"
+msgstr ""
+
+#: inc/class-widget.php:100
+msgid "Title"
+msgstr ""
+
+#: inc/class-widget.php:100 inc/class-widget.php:108
+msgid "(optional)"
+msgstr ""
+
+#: inc/class-widget.php:108
+msgid "Text"
+msgstr ""
+
+#: inc/class-widget.php:117
+msgid "Link Text"
+msgstr ""
+
+#: inc/class-widget.php:124
+msgid "Style"
+msgstr ""
+
+#: inc/class-widget.php:153
+msgid "Unstyled.<br>Use CSS class: <code>.widget a.setmore</code>"
+msgstr ""
+
+#: inc/class-widget.php:159
+msgid "Booking Page"
+msgstr ""
+
+#: inc/class-widget.php:162
+msgid "Main (default)"
+msgstr ""
+
+#: inc/instructions.php:5
+msgid "How to add Setmore to your site"
+msgstr ""
+
+#: inc/instructions.php:10
+msgid "To add a button in a <b>sidebar</b> that opens the scheduler in a popup"
+msgstr ""
+
+#: inc/instructions.php:11
+msgid "widget"
+msgstr ""
+
+#: inc/instructions.php:14
+msgid "To <b>embed</b> the scheduler directly in a page"
+msgstr ""
+
+#: inc/instructions.php:19
+msgid "To add a <b>link</b> to the popup scheduler in a page"
+msgstr ""
+
+#: inc/instructions.php:20
+msgid "The link will be styled by your theme."
+msgstr ""
+
+#: inc/instructions.php:26
+msgid "To add a <b>button</b> to the popup scheduler in a page"
+msgstr ""
+
+#: inc/instructions.php:27
+msgid "The button will be styled by your theme."
+msgstr ""
+
+#: inc/instructions.php:32
+msgid "To select a Staff Booking Page"
+msgstr ""
+
+#: inc/instructions.php:40
+msgid "For a <b>menu link</b>"
+msgstr ""
+
+#: inc/instructions.php:42
+msgid "screenshot"
+msgstr ""
+
+#: inc/instructions.php:47
+msgid "go to Appearance > Menus"
+msgstr ""
+
+#: inc/instructions.php:48
+msgid "click \"Screen Options\" in the upper right corner"
+msgstr ""
+
+#: inc/instructions.php:49
+msgid "if necessary, check the \"Custom Links\" and \"CSS Classes\" boxes"
+msgstr ""
+
+#: inc/instructions.php:50
+msgid "add a custom link using your Setmore URL and link text"
+msgstr ""
+
+#: inc/instructions.php:51
+msgid "enter %s in the CSS Classes field"
+msgstr ""
+
+#: inc/instructions.php:64
+msgid ""
+"With <code>link</code> or <code>button</code>, you can customize the text"
+msgstr ""
+
+#: inc/instructions.php:68
+msgid "and/or add a CSS class from your theme or custom CSS."
+msgstr ""
+
+#: inc/instructions.php:76
+msgid ""
+"The width and height shortcode attributes were removed.<br>Use the settings "
+"instead."
+msgstr ""
+
+#: inc/settings.php:4
+msgid ""
+"This plugin is offered by <a href=\"%s\" target=\"_blank\">WP Mission</a>. "
+"<em>We have no affiliation with <a href=\"%s\" target=\"_blank\">Setmore "
+"Appointments</a> and provide no technical support for their service.</em>"
+msgstr ""
+
+#: inc/settings.php:6
+msgid ""
+"We do, however, provide lifetime support for this plugin, including <a href="
+"\"%s\" target=\"_blank\">free help</a> getting the <button class=\"demo"
+"\">Book Appointment</button> button to match your theme."
+msgstr ""
+
+#: inc/settings.php:8
+msgid ""
+"If your site uses <strong>SSL</strong> (e.g. http<em class=\"hilite\">s</"
+"em>://example.com) and the scheduler does not appear in the popup, try "
+"entering URLs without the <code>http:</code> like <code>//example.setmore."
+"com</code>."
+msgstr ""
+
+#: setmore-plus.php:143 setmore-plus.php:366
+msgid "Settings"
+msgstr ""
+
+#: setmore-plus.php:166
+msgid "Your Booking Page URL"
+msgstr ""
+
+#: setmore-plus.php:174
+msgid "Your Staff Booking Pages"
+msgstr ""
+
+#: setmore-plus.php:182
+msgid "Popup Width"
+msgstr ""
+
+#: setmore-plus.php:190
+msgid "Popup Height"
+msgstr ""
+
+#: setmore-plus.php:198
+msgid "Script Loading"
+msgstr ""
+
+#: setmore-plus.php:206
+msgid "Leave No Trace"
+msgstr ""
+
+#: setmore-plus.php:238
+msgid "Setmore Booking Page URL"
+msgstr ""
+
+#: setmore-plus.php:240
+msgid ""
+"To find your unique URL, <a href=\"%s\" target=\"_blank\">sign in to "
+"Setmore</a> and click on <b>Profile</b>."
+msgstr ""
+
+#: setmore-plus.php:250
+msgid "ID"
+msgstr ""
+
+#: setmore-plus.php:251
+msgid "Staff Name"
+msgstr ""
+
+#: setmore-plus.php:252
+msgid "Staff Booking Page URL"
+msgstr ""
+
+#: setmore-plus.php:262
+msgid "Add New"
+msgstr ""
+
+#: setmore-plus.php:265
+msgid ""
+"To find your individual Staff Booking Pages, <a href=\"%s\" target=\"_blank"
+"\">sign in to Setmore</a> and navigate to <b>Settings > Staff</b>."
+msgstr ""
+
+#: setmore-plus.php:281
+msgid "staff name"
+msgstr ""
+
+#: setmore-plus.php:286
+msgid "Staff Booking Page"
+msgstr ""
+
+#: setmore-plus.php:317
+msgid "Normal (default)"
+msgstr ""
+
+#: setmore-plus.php:320
+msgid "Priority"
+msgstr ""
+
+#: setmore-plus.php:325
+msgid "<strong>Normal</strong> works well in the majority of cases."
+msgstr ""
+
+#: setmore-plus.php:326
+msgid ""
+"Try <strong>Priority</strong> if your Setmore link fails to produce a popup."
+msgstr ""
+
+#: setmore-plus.php:338
+msgid "Yes - Deleting this plugin will also delete these settings."
+msgstr ""
+
+#: setmore-plus.php:341
+msgid "No - These settings will remain after deleting this plugin."
+msgstr ""
+
+#: setmore-plus.php:346
+msgid "Deactivating this plugin will not delete anything."
+msgstr ""
+
+#: setmore-plus.php:354
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: setmore-plus.php:369
+msgid "Instructions"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://www.wpmission.com/plugins/setmore-plus"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Easy online appointments with a widget, shortcode, or menu link."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Chris Dillon"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.wpmission.com"
+msgstr ""
