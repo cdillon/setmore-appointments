@@ -29,10 +29,9 @@ Learn more and get a free Setmore account at [Setmore.com](http://setmore.com).
 = Add Setmore to your site =
 
 After entering your main booking page URL provided by Setmore, to display the scheduler on your site:
+
 * use a **widget** to place a "Book Appointments" button in a sidebar area
-* use the **shortcode**
-    * to embed the Setmore scheduler directly in a page
-    * or add a link or a button that opens the scheduler in a popup window
+* use the **shortcode** to embed the Setmore scheduler directly in a page or add a link or a button that opens the scheduler in a popup window
 * create a **menu link** that opens the scheduler popup
 
 The widget and shortcode also work with individual staff booking pages. Full instructions are included.
