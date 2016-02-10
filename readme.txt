@@ -1,36 +1,60 @@
-=== SetMore Plus ===
+=== Setmore Plus ===
 Contributors: cdillon27
 Donate link: https://www.wpmission.com/donate/
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.4.1
+Tested up to: 4.4.2
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Easy online appointments.
+Allow your customers to make appointments online using the setmore.com service. Now works with individual staff booking pages.
 
 == Description ==
 
-SetMore Plus by [WP Mission](https://www.wpmission.com) may not be the official plugin for [SetMore Appointments](http://setmore.com) but my clients like it better :)
+Setmore Plus by [WP Mission](https://www.wpmission.com) may not be the official plugin for [Setmore Appointments](http://setmore.com) but my clients like it better :)
 
-SetMore offers easy online appointments. Use a **widget** to place a "Book Appointments" button on your website. With the **shortcode** options, you can easily embed the SetMore scheduler directly in a page, or add a link or a button that opens the scheduler in a popup window.
+**[See demos of various options here!](http://demos.wpmission.com/setmore-plus/)**
 
-*This plugin is offered by [WP Mission](https://www.wpmission.com). We have no affiliation with SetMore Appointments and provide no technical support for their service.*
+= About Setmore Appointments =
 
-We do, however, provide lifetime support for this plugin, including [free help](https://www.wpmission.com/contact) getting the "Book Appointment" button to match your theme.
+Setmore helps you manage appointments, schedules, and customers, all through an easy-to-use web application. Your customers can book online, and pick their favorite staff, service and time-slot without picking up the phone.
 
-This plugin will *leave no trace!* If you delete the plugin, all settings will be removed from the database. Guaranteed. However, simply deactivating it will leave your settings in place, as expected.
+= Getting started with a free account =
+
+Signing up is easy, fast and you don't need a credit card to get started. Once you have an account you'll be ready to take appointments.
+
+Learn more and get a free Setmore account at [Setmore.com](http://setmore.com).
+
+= Add Setmore to your site =
+
+After entering your main booking page URL provided by Setmore, to display the scheduler on your site:
+* use a **widget** to place a "Book Appointments" button in a sidebar area
+* use the **shortcode**
+    * to embed the Setmore scheduler directly in a page
+    * or add a link or a button that opens the scheduler in a popup window
+* create a **menu link** that opens the scheduler popup
+
+The widget and shortcode also work with individual staff booking pages. Full instructions are included.
+
+*This plugin is offered by [WP Mission](https://www.wpmission.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
+
+We do, however, provide lifetime support for this plugin, including free help getting the "Book Appointment" button to match your theme.
+
+This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. Guaranteed. However, simply deactivating it will leave your settings in place, as expected.
 
 = Recommended =
 
 * [Modular Custom CSS](https://wordpress.org/plugins/modular-custom-css/) for quick CSS tweaks right there in the Customizer.
-* [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e,
+* [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e.
 
 = Translations =
 
-Can you help? [Contact me](https://www.wpmission.com/contact/).
+* Spanish (es_ES) - Richy Canello
 
+Did you know you can help by [translating phrases here](https://translate.wordpress.org/projects/wp-plugins/setmore-plus)? Even just a few phrases would help.
+
+[Contact me](https://www.wpmission.com/contact/) to contribute a full translation.
 
 == Installation ==
 
@@ -45,10 +69,10 @@ OR
 
 Finally, activate the plugin.
 
-1. Go to `Settings > SetMore Plus`.
+1. Go to `Settings > Setmore Plus`.
 1. In another browser tab, sign in to [my.setmore.com](http://my.setmore.com).
 1. Copy your Booking Page URL from your "Profile" tab.
-1. Paste that URL into the `SetMore Booking URL` field in WordPress.
+1. Paste that URL into the `Setmore Booking URL` field in WordPress.
 1. Add the widget to a sidebar, the shortcode to a page, or a custom link to a menu.
 
 Need help? Use the [support forum](http://wordpress.org/support/plugin/strong-testimonials) or [contact me](https://www.wpmission.com/contact/).
@@ -56,9 +80,9 @@ Need help? Use the [support forum](http://wordpress.org/support/plugin/strong-te
 
 == Frequently Asked Questions ==
 
-= How do I get a SetMore account? =
+= How do I get a Setmore account? =
 
-Visit [SetMore](http://setmore.com) to get your free account. A [premium plan](http://www.setmore.com/premium) with more features is also available.
+Visit [Setmore](http://setmore.com) to get your free account. A [premium plan](http://www.setmore.com/premium) with more features is also available.
 
 = How do I change the "Book Appointment" button? =
 
@@ -85,16 +109,20 @@ a.setmore:hover {
 }
 `
 
-Need help? Use the [support forum](http://wordpress.org/support/plugin/setmore-plus) or [contact me](https://www.wpmission.com/contact).
+Need help? Use the [support forum](http://wordpress.org/support/plugin/setmore-plus) or [contact me](https://www.wpmission.com/support).
 
 = Leave no trace? What's that about? =
 
 Some plugins and themes don't fully uninstall everything they installed - things like settings, database tables, subdirectories. That bugs me. Sometimes, it bugs your WordPress too.
 
-So this plugin will completely remove itself upon deletion. Deactivating the plugin will leave the settings intact. You can also switch off "Leave No Trace" so the settings remain after deletion, if you want.
+So this plugin has an option to completely remove itself upon deletion. Simply deactivating the plugin will leave the settings intact.
 
 
 == Changelog ==
+
+= 3.4 =
+* Add individual staff booking pages to shortcode and widget.
+* Spanish translation.
 
 = 3.3 =
 * Add option to load scripts in header instead of footer.
@@ -128,7 +156,7 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 * Improved settings page.
 
 = 2.0 =
-* Forked from SetMore Appointments 1.0.
+* Forked from Setmore Appointments 1.0.
 * Updated for WordPress 3.9. New minimum version 3.3.
 * Improved widget options.
 * New shortcode to add an iframe to a page.
@@ -140,5 +168,5 @@ So this plugin will completely remove itself upon deletion. Deactivating the plu
 
 == Upgrade Notice ==
 
-= 3.2 =
-Fix bugs. Menu link option for the popup.
+= 3.4 =
+Now offers individual staff booking pages. New Spanish translation.

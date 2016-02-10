@@ -1,11 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) die;
 
 class SetmorePlus_Widget extends WP_Widget {
 
 	function __construct() {
 		parent::__construct(
-			'wpmsmp_widget',  // base ID
-			__( 'SetMore Plus', 'setmore-plus' ),  // name
+			'setmoreplus_widget',  // base ID
+			__( 'Setmore Plus', 'setmore-plus' ),  // name
 			array( 'description' => __( 'Add a "Book Appointment" button.', 'setmore-plus' ) )  // args
 		);
 	}
@@ -43,21 +44,23 @@ class SetmorePlus_Widget extends WP_Widget {
 		}
 
 		// widget link
+		$url = apply_filters( 'setmoreplus_url', $options['url'], $data['staff'] );
 		if ( 'button' == $data['style'] ) {
 			?>
-			<a class="setmore-iframe" href="<?php echo $options['url']; ?>">
-				<img border="none" src="<?php echo SETMOREPLUS_URL . 'images/SetMore-book-button.png'; ?>" alt="Book an appointment"></a>
+			<a class="setmore-iframe" href="<?php echo $url; ?>">
+				<img border="none" src="<?php echo SETMOREPLUS_URL . 'images/Setmore-book-button.png'; ?>" alt="<?php _e( 'Book an appointment', 'setmore-plus' ); ?>"></a>
 			<?php
 		}
 		elseif ( 'link' == $data['style'] ) {
 			?>
 			<a class="setmore setmore-iframe"
-			   href="<?php echo $options['url']; ?>"><?php _e( $data['link-text'], 'setmore-plus' ); ?></a>
+			   href="<?php echo $url; ?>"><?php _e( $data['link-text'], 'setmore-plus' ); ?></a>
 			<?php
-		} else {
+		}
+		else {
 			?>
 			<a class="setmore setmore-iframe"
-			   href="<?php echo $options['url']; ?>"><?php _e( $data['link-text'], 'setmore-plus' ); ?></a>
+			   href="<?php echo $url; ?>"><?php _e( $data['link-text'], 'setmore-plus' ); ?></a>
 			<?php
 		}
 
@@ -71,79 +74,103 @@ class SetmorePlus_Widget extends WP_Widget {
 	 * @return void
 	 */
 	public function form( $instance ) {
-		$defaults  = array(
-			'title'     => __( '', 'setmore-plus' ),
-			'text'      => __( '', 'setmore-plus' ),
-			'link-text' => __( 'Book Appointment', 'setmore-plus' ),
-			'style'     => 'button'
-		);
-		$instance  = wp_parse_args( (array) $instance, $defaults );
-		$link_text = empty( $instance['link-text'] ) ? $defaults['link-text'] : $instance['link-text'];
-		?>
-		<script>
-			// clicking demo buttons (1) selects radio button and (2) prevents link action
-			jQuery(document).ready(function ($) {
-				$("a.setmore-admin").click(function (e) {
-					$(this).prev("input").attr("checked", "checked").focus();
-					e.preventDefault();
-				});
+	$options   = get_option( 'setmoreplus' );
+	$defaults  = array(
+		'title'     => '',
+		'text'      => '',
+		'link-text' => __( 'Book Appointment', 'setmore-plus' ),
+		'style'     => 'button',
+		'staff'     => '',
+	);
+	$instance  = wp_parse_args( (array) $instance, $defaults );
+	$link_text = empty( $instance['link-text'] ) ? $defaults['link-text'] : $instance['link-text'];
+	?>
+	<script>
+		// clicking demo buttons (1) selects radio button and (2) prevents link action
+		jQuery(document).ready(function ($) {
+			$("a.setmore-admin").click(function (e) {
+				$(this).prev("input").attr("checked", "checked").focus();
+				e.preventDefault();
 			});
-		</script>
+		});
+	</script>
 
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'setmore-plus' ); ?>:
-				<em><?php _e( '(optional)', 'setmore-plus' ); ?></em></label>
-			<input id="<?php echo $this->get_field_id( 'title' ); ?>" type="text" class="text widefat"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>">
-		</p>
+	<p>
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>">
+			<?php _e( 'Title', 'setmore-plus' ); ?>: <em><?php _e( '(optional)', 'setmore-plus' ); ?></em>
+		</label>
+		<input id="<?php echo $this->get_field_id( 'title' ); ?>" type="text" class="text widefat"
+		       name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>">
+	</p>
 
-		<p>
-			<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text', 'setmore-plus' ); ?>:
-				<em><?php _e( '(optional)', 'setmore-plus' ); ?></em></label>
-			<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" class="text widefat"
-			          name="<?php echo $this->get_field_name( 'text' ); ?>"
-			          rows="3"><?php echo $instance['text']; ?></textarea>
-		</p>
+	<p>
+		<label for="<?php echo $this->get_field_id( 'text' ); ?>">
+			<?php _e( 'Text', 'setmore-plus' ); ?>: <em><?php _e( '(optional)', 'setmore-plus' ); ?></em>
+		</label>
+		<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" class="text widefat"
+		          name="<?php echo $this->get_field_name( 'text' ); ?>"
+		          rows="3"><?php echo $instance['text']; ?></textarea>
+	</p>
 
-		<p>
-			<label for="<?php echo $this->get_field_id( 'link-text' ); ?>"><?php _e( 'Link Text', 'setmore-plus' ); ?>
-				:</label>
-			<input id="<?php echo $this->get_field_id( 'link-text' ); ?>" type="text" class="text widefat"
-			       name="<?php echo $this->get_field_name( 'link-text' ); ?>"
-			       value="<?php echo $instance['link-text']; ?>" placeholder="<?php echo $defaults['link-text']; ?>">
-		</p>
+	<p>
+		<label for="<?php echo $this->get_field_id( 'link-text' ); ?>">
+			<?php _e( 'Link Text', 'setmore-plus' ); ?>:
+		</label>
+		<input id="<?php echo $this->get_field_id( 'link-text' ); ?>" type="text" class="text widefat"
+		       name="<?php echo $this->get_field_name( 'link-text' ); ?>"
+		       value="<?php echo $instance['link-text']; ?>" placeholder="<?php echo $defaults['link-text']; ?>">
+	</p>
 
-		<?php _e( 'Style', 'setmore-plus' ); ?>:
-		<ul class="setmore-style">
-			<li>
-				<label for="<?php echo $this->get_field_id( 'style-button' ); ?>">
-					<input id="<?php echo $this->get_field_id( 'style-button' ); ?>" type="radio"
-					       name="<?php echo $this->get_field_name( 'style' ); ?>"
-					       value="button" <?php checked( $instance['style'], 'button' ); ?>>
-					<a class="setmore-admin" href="#">
-						<img style="vertical-align: middle;" border="none" src="<?php echo SETMOREPLUS_URL . 'images/SetMore-book-button.png'; ?>" alt="Book an appointment"></a>
-				</label>
-			</li>
-			<li>
-				<label for="<?php echo $this->get_field_id( 'style-link' ); ?>">
-					<input id="<?php echo $this->get_field_id( 'style-link' ); ?>" type="radio"
-					       name="<?php echo $this->get_field_name( 'style' ); ?>"
-					       value="link" <?php checked( $instance['style'], 'link' ); ?>>
-					<a class="setmore setmore-admin" href="#"><?php echo $link_text; ?></a>
-				</label>
-			</li>
-			<li>
-				<label for="<?php echo $this->get_field_id( 'style-none' ); ?>">
-					<input id="<?php echo $this->get_field_id( 'style-none' ); ?>" type="radio"
-					       name="<?php echo $this->get_field_name( 'style' ); ?>"
-					       value="none" <?php checked( $instance['style'], 'none' ); ?>>
-					<a class="setmore-admin" href="#"><?php echo $link_text; ?></a>
-				</label>
+	<?php _e( 'Style', 'setmore-plus' ); ?>:
+	<ul class="setmore-style">
+		<li>
+			<label for="<?php echo $this->get_field_id( 'style-button' ); ?>">
+				<input id="<?php echo $this->get_field_id( 'style-button' ); ?>" type="radio"
+				       name="<?php echo $this->get_field_name( 'style' ); ?>"
+				       value="button" <?php checked( $instance['style'], 'button' ); ?>>
+				<a class="setmore-admin" href="#">
+					<img style="vertical-align: middle;" border="none"
+					     src="<?php echo SETMOREPLUS_URL . 'images/Setmore-book-button.png'; ?>"
+					     alt="Book an appointment"></a>
+			</label>
+		</li>
+		<li>
+			<label for="<?php echo $this->get_field_id( 'style-link' ); ?>">
+				<input id="<?php echo $this->get_field_id( 'style-link' ); ?>" type="radio"
+				       name="<?php echo $this->get_field_name( 'style' ); ?>"
+				       value="link" <?php checked( $instance['style'], 'link' ); ?>>
+				<a class="setmore setmore-admin" href="#"><?php echo $link_text; ?></a>
+			</label>
+		</li>
+		<li>
+			<label for="<?php echo $this->get_field_id( 'style-none' ); ?>">
+				<input id="<?php echo $this->get_field_id( 'style-none' ); ?>" type="radio"
+				       name="<?php echo $this->get_field_name( 'style' ); ?>"
+				       value="none" <?php checked( $instance['style'], 'none' ); ?>>
+				<a class="setmore-admin" href="#"><?php echo $link_text; ?></a>
+			</label>
 
-				<p><?php _e( "Unstyled.<br>Use CSS class: <code>.widget a.setmore</code>", 'setmore-plus' ); ?></p>
-			</li>
-		</ul>
-		<?php
+			<p><?php _e( "Unstyled.<br>Use CSS class: <code>.widget a.setmore</code>", 'setmore-plus' ); ?></p>
+		</li>
+	</ul>
+
+	<p>
+		<?php if ( $options['staff_urls'] ) : ?>
+			<label for="<?php echo $this->get_field_id( 'staff' ); ?>"><?php _e( 'Booking Page', 'setmore-plus' ); ?>:</label>
+			<select class="widefat" id="<?php echo $this->get_field_id( 'staff' ); ?>"
+			        name="<?php echo $this->get_field_name( 'staff' ); ?>" autocomplete="off">
+				<option value=""><?php _e( 'Main (default)', 'setmore-plus' ); ?></option>
+				<?php
+				foreach ( $options['staff_urls'] as $staff_id => $staff_info ) {
+					printf( '<option value="%s" %s>%s</option>', $staff_id, selected( $staff_id, $instance['staff'] ), $staff_info['name'] );
+				}
+				?>
+			</select>
+		<?php else : ?>
+			<input type="hidden" name="<?php echo $this->get_field_name( 'staff' ); ?>" value="">
+		<?php endif; ?>
+	</p>
+	<?php
 	}
 
 	/**
@@ -160,6 +187,7 @@ class SetmorePlus_Widget extends WP_Widget {
 		$instance['text']      = strip_tags( $new_instance['text'] );
 		$instance['link-text'] = strip_tags( $new_instance['link-text'] );
 		$instance['style']     = $new_instance['style'];
+		$instance['staff']     = $new_instance['staff'];
 
 		return $instance;
 	}
