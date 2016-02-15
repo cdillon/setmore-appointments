@@ -119,6 +119,9 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 == Changelog ==
 
+= 3.4.1 =
+* Fix missing button on widget.
+
 = 3.4 =
 * Add individual staff booking pages to shortcode and widget.
 * Spanish translation.
