@@ -48,7 +48,7 @@ class SetmorePlus_Widget extends WP_Widget {
 		if ( 'button' == $data['style'] ) {
 			?>
 			<a class="setmore-iframe" href="<?php echo $url; ?>">
-				<img border="none" src="<?php echo SETMOREPLUS_URL . 'images/Setmore-book-button.png'; ?>" alt="<?php _e( 'Book an appointment', 'setmore-plus' ); ?>"></a>
+				<img border="none" src="<?php echo SETMOREPLUS_URL . 'images/SetMore-book-button.png'; ?>" alt="<?php _e( 'Book an appointment', 'setmore-plus' ); ?>"></a>
 			<?php
 		}
 		elseif ( 'link' == $data['style'] ) {
@@ -130,7 +130,7 @@ class SetmorePlus_Widget extends WP_Widget {
 				       value="button" <?php checked( $instance['style'], 'button' ); ?>>
 				<a class="setmore-admin" href="#">
 					<img style="vertical-align: middle;" border="none"
-					     src="<?php echo SETMOREPLUS_URL . 'images/Setmore-book-button.png'; ?>"
+					     src="<?php echo SETMOREPLUS_URL . 'images/SetMore-book-button.png'; ?>"
 					     alt="Book an appointment"></a>
 			</label>
 		</li>

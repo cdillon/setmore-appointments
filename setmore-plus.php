@@ -3,7 +3,7 @@
  * Plugin Name: Setmore Plus
  * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.4
+ * Version: 3.4.1
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
