@@ -3,7 +3,7 @@
  * Plugin Name: Setmore Plus
  * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.4.1
+ * Version: 3.5
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
@@ -47,11 +47,18 @@ class SetmorePlus {
 			add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 
 			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_admin_scripts' ) );
+			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_lnt_style' ) );
+
 			// Loading Colorbox to show a screenshot in a popup, not for the scheduler.
 			add_action( 'load-settings_page_setmoreplus', array( $this, 'load_colorbox' ) );
+
 			add_action( 'load-widgets.php', array( $this, 'load_widget_scripts' ) );
 
 			add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+
+			// LNT icon
+			add_action( 'load-plugins.php', array( $this, 'load_lnt_style' ) );
+			add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
 		}
 
 		add_action( 'init', array( $this, 'register_shortcodes' ) );
@@ -74,10 +81,14 @@ class SetmorePlus {
 	/**
 	 * [Add New] Ajax receiver
 	 */
-	function add_url_function() {
+	public function add_url_function() {
 		$count = $_REQUEST['count'] + 1;
 		$this->render_staff_url_row( $count );
 		die();
+	}
+
+	public function load_lnt_style() {
+		wp_enqueue_style( 'setmoreplus-lnt', plugins_url( '/css/lnt.css', __FILE__ ) );
 	}
 
 	public function load_colorbox() {
@@ -146,6 +157,25 @@ class SetmorePlus {
 		return $links;
 	}
 
+	/**
+	 * Plugin meta row
+	 *
+	 * @param        $plugin_meta
+	 * @param        $plugin_file
+	 * @param array  $plugin_data
+	 * @param string $status
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return array
+	 */
+	public function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data = array(), $status = '' ) {
+		if ( $plugin_file == plugin_basename( __FILE__ ) ) {
+			$plugin_meta[] = '<span class="lnt">Leave No Trace</span>';
+		}
+		return $plugin_meta;
+	}
+
 	public function add_admin_menu() {
 		add_options_page( 'Setmore Plus', 'Setmore Plus', 'manage_options', 'setmoreplus', array( $this, 'options_page' ) );
 }
@@ -203,7 +233,7 @@ class SetmorePlus {
 
 		add_settings_field(
 			'setmoreplus-lnt',
-			'<label for="setmoreplus_lnt">' . __( 'Leave No Trace', 'setmore-plus' ) . '</label>',
+			'<label for="setmoreplus_lnt" class="lnt">' . __( 'Leave No Trace', 'setmore-plus' ) . '</label>',
 			array( $this, 'render_setting_lnt' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
@@ -270,7 +300,7 @@ class SetmorePlus {
 	public function render_staff_url_row( $id, $name = '', $url = '' ) {
 		?>
 		<div class="row staff-row">
-			<input type="hidden" class="original-order" value="<? echo $id; ?>">
+			<input type="hidden" class="original-order" value="<?php echo $id; ?>">
 			<div class="cell">
 				<div class="staff-id">
 					<?php echo $id; ?>
@@ -294,7 +324,7 @@ class SetmorePlus {
 		$options = get_option( 'setmoreplus' );
 		?>
 		<div>
-			<input type="text" id="setmoreplus_width" class="four-digits" name="setmoreplus[width]" value="<? echo $options['width']; ?>" />&nbsp;px
+			<input type="text" id="setmoreplus_width" class="four-digits" name="setmoreplus[width]" value="<?php echo $options['width']; ?>" />&nbsp;px
 		</div>
 		<?php
 	}
@@ -303,7 +333,7 @@ class SetmorePlus {
 		$options = get_option( 'setmoreplus' );
 		?>
 		<div>
-			<input type="text" id="setmoreplus_height" class="four-digits" name="setmoreplus[height]" value="<? echo $options['height']; ?>" />&nbsp;px
+			<input type="text" id="setmoreplus_height" class="four-digits" name="setmoreplus[height]" value="<?php echo $options['height']; ?>" />&nbsp;px
 		</div>
 		<?php
 	}

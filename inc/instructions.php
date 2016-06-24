@@ -51,7 +51,13 @@
 					<li><?php printf( __( 'enter %s in the CSS Classes field', 'setmore-plus'), '<input type="text" readonly value="setmore-iframe" style="width: 130px; font-family: consolas, monospace;">' ); ?></li>
 				</ol>
 			</td>
-
+		</tr>
+		<tr>
+			<td><p><?php _e( 'To add the popup scheduler to a <b>plain URL</b>, append <code>#setmoreplus</code>', 'setmore-plus' ); ?></p>
+				<p><?php _e( 'For example, if your theme already has a "Book Appointment"<br>button and you can only enter your URL.', 'setmore-plus' ); ?></p></td>
+			<td>
+				<p><code>http://{booking page URL}#setmoreplus</code></p>
+			</td>
 		</tr>
 		</tbody>
 	</table>
@@ -62,7 +68,7 @@
 		<tbody>
 		<tr>
 			<td><p><?php _e( 'With <code>link</code> or <code>button</code>, you can customize the text', 'setmore-plus' ); ?></p></td>
-			<td class="code">[setmoreplus button]<? _e( 'Make an appointment today!', 'setmore-plus' ); ?>[/setmoreplus]</td>
+			<td class="code">[setmoreplus button]<?php _e( 'Make an appointment today!', 'setmore-plus' ); ?>[/setmoreplus]</td>
 		</tr>
 		<tr>
 			<td><p><?php _e( 'and/or add a CSS class from your theme or custom CSS.', 'setmore-plus' ); ?></p></td>

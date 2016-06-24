@@ -3,7 +3,7 @@ Contributors: cdillon27
 Donate link: https://www.wpmission.com/donate/
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.4.2
+Tested up to: 4.5.3
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,7 @@ Allow your customers to make appointments online using the setmore.com service. 
 
 == Description ==
 
-Setmore Plus by [WP Mission](https://www.wpmission.com) may not be the official plugin for [Setmore Appointments](http://setmore.com) but my clients like it better :)
+Setmore Plus by [WP Mission](https://www.wpmission.com) is a modern, feature-rich plugin to quickly add the [Setmore Appointments](http://setmore.com) scheduler to your site.
 
 **[See demos of various options here!](http://demos.wpmission.com/setmore-plus/)**
 
@@ -52,8 +52,6 @@ This plugin can *leave no trace!* If you delete the plugin, all settings will be
 * Spanish (es_ES) - Richy Canello
 
 Did you know you can help by [translating phrases here](https://translate.wordpress.org/projects/wp-plugins/setmore-plus)? Even just a few phrases would help.
-
-[Contact me](https://www.wpmission.com/contact/) to contribute a full translation.
 
 == Installation ==
 
@@ -118,6 +116,11 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 
 == Changelog ==
+
+= 3.5 =
+* Add `#setmoreplus` option.
+* Fix bug on settings page.
+* Add Leave No Trace icon.
 
 = 3.4.1 =
 * Fix missing button on widget.
