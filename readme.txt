@@ -44,7 +44,7 @@ This plugin can *leave no trace!* If you delete the plugin, all settings will be
 
 = Recommended =
 
-* [Modular Custom CSS](https://wordpress.org/plugins/modular-custom-css/) for quick CSS tweaks right there in the Customizer.
+* [Simple Custom CSS](https://wordpress.org/plugins/simple-custom-css/) for quick CSS tweaks.
 * [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e.
 
 = Translations =
@@ -116,6 +116,11 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 
 == Changelog ==
+
+= 3.6 =
+* Improve responsiveness so the proper schedular size is loaded from Setmore.com.
+* Separate popup dimensions from embed (iframe) dimensions.
+* Add screenshots of Setmore scheduler sizes.
 
 = 3.5 =
 * Add `#setmoreplus` option.

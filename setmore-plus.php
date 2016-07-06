@@ -3,7 +3,7 @@
  * Plugin Name: Setmore Plus
  * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.5
+ * Version: 3.6
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
@@ -36,6 +36,9 @@ class SetmorePlus {
 
 		if ( ! defined( 'SETMOREPLUS_DIR' ) )
 			define( 'SETMOREPLUS_DIR', plugin_dir_path( __FILE__ ) );
+
+		if ( ! defined( 'SETMOREPLUS_IMAGES' ) )
+			define( 'SETMOREPLUS_IMAGES', plugin_dir_url( __FILE__ ) . '/images/' );
 
 		require_once SETMOREPLUS_DIR . 'inc/class-widget.php';
 
@@ -114,20 +117,32 @@ class SetmorePlus {
 		wp_enqueue_style( 'setmoreplus-widget-admin', plugins_url( 'css/widget-admin.css', __FILE__ ) );
 	}
 
+	public function get_defaults() {
+		return array(
+			'url'                        => '',
+			'staff_urls'                 => null,
+			'width'                      => 585,
+			'width_p'                    => 'px',
+			'height'                     => 680,
+			'height_p'                   => 'px',
+			'mobile_breakpoint'          => 585,
+			'embed_desktop_width'        => 585,
+			'embed_desktop_width_p'      => 'px',
+			'embed_desktop_height'       => 680,
+			'embed_mobile_breakpoint'    => 585,
+			'embed_mobile_height'        => 680,
+			'defer'                      => 1,
+			'lnt'                        => 1,
+		);
+	}
+
 	public function default_settings() {
 		$plugin_data    = get_plugin_data( __FILE__, false );
 		$plugin_version = $plugin_data['Version'];
 		if ( isset( $options['plugin_version'] ) && $options['plugin_version'] == $plugin_version )
 			return;
 
-		$default_options = array(
-			'url'    => '',
-			'staff_urls' => null,
-			'width'  => 540,
-			'height' => 680,
-			'defer'  => 1,
-			'lnt'    => 1,
-		);
+		$default_options = $this->get_defaults();
 
 		// Updating from 2.1
 		$previous_setting = get_option( 'setmoreplus_url' );
@@ -178,7 +193,7 @@ class SetmorePlus {
 
 	public function add_admin_menu() {
 		add_options_page( 'Setmore Plus', 'Setmore Plus', 'manage_options', 'setmoreplus', array( $this, 'options_page' ) );
-}
+	}
 
 	public function settings_init() {
 
@@ -208,17 +223,25 @@ class SetmorePlus {
 		);
 
 		add_settings_field(
-			'setmoreplus-width',
-			'<label for="setmoreplus_width">'. __( 'Popup Width', 'setmore-plus' ) . '</label>',
-			array( $this, 'render_setting_width' ),
+			'setmoreplus-app-examples',
+			'<label for="setmoreplus_app_examples">'. __( 'Scheduler Sizes', 'setmore-plus' ) . '</label>',
+			array( $this, 'render_app_examples' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
 		);
 
 		add_settings_field(
-			'setmoreplus-height',
-			'<label for="setmoreplus_height">' . __( 'Popup Height', 'setmore-plus' ) . '</label>',
-			array( $this, 'render_setting_height' ),
+			'setmoreplus-popup-dimensions',
+			'<label for="setmoreplus_popup_dimensions">'. __( 'Popup Dimensions', 'setmore-plus' ) . '</label>',
+			array( $this, 'render_setting_popup_dimensions' ),
+			'setmoreplus_group',
+			'setmoreplus_section'
+		);
+
+		add_settings_field(
+			'setmoreplus-embed-dimensions',
+			'<label for="setmoreplus_embed_dimensions">'. __( 'Embed Dimensions', 'setmore-plus' ) . '</label>',
+			array( $this, 'render_setting_embed_dimensions' ),
 			'setmoreplus_group',
 			'setmoreplus_section'
 		);
@@ -255,10 +278,22 @@ class SetmorePlus {
 		else {
 			$new['staff_urls'] = null;
 		}
-		$new['width']  = sanitize_text_field( $input['width'] );
-		$new['height'] = sanitize_text_field( $input['height'] );
-		$new['defer']  = isset( $input['defer'] ) ? $input['defer'] : 1;
-		$new['lnt']    = isset( $input['lnt'] ) ? $input['lnt'] : 0;
+		$new['width']                      = sanitize_text_field( $input['width'] );
+		$new['width_p']                    = sanitize_text_field( $input['width_p'] );
+		$new['height']                     = sanitize_text_field( $input['height'] );
+		$new['height_p']                   = sanitize_text_field( $input['height_p'] );
+		$new['mobile_breakpoint']          = sanitize_text_field( $input['mobile_breakpoint'] );
+
+		$new['embed_desktop_width']        = sanitize_text_field( $input['embed_desktop_width'] );
+		$new['embed_desktop_width_p']      = sanitize_text_field( $input['embed_desktop_width_p'] );
+		$new['embed_desktop_height']       = sanitize_text_field( $input['embed_desktop_height'] );
+
+		$new['embed_mobile_breakpoint']    = sanitize_text_field( $input['embed_mobile_breakpoint'] );
+		$new['embed_mobile_height']        = sanitize_text_field( $input['embed_mobile_height'] );
+
+		$new['defer']                      = isset( $input['defer'] ) ? $input['defer'] : 1;
+		$new['lnt']                        = isset( $input['lnt'] ) ? $input['lnt'] : 0;
+
 		return $new;
 	}
 
@@ -266,7 +301,7 @@ class SetmorePlus {
 		$options = get_option( 'setmoreplus' );
 		?>
 		<input type="text" id="setmoreplus_url" name="setmoreplus[url]" style="width: 100%;" value="<?php echo $options['url']; ?>" placeholder="<?php _e( 'Setmore Booking Page URL', 'setmore-plus' ); ?>" />
-		<p>
+		<p class="description">
 			<?php printf( wp_kses( __( 'To find your unique URL, <a href="%s" target="_blank">sign in to Setmore</a> and click on <b>Profile</b>.', 'setmore-plus' ), array( 'a' => array( 'href' => array(), 'target' => array(), 'class' => array() ), 'b' => array(), ) ), 'http://my.setmore.com' ); ?>
 		</p>
 		<?php
@@ -275,11 +310,13 @@ class SetmorePlus {
 	public function render_setting_staff_urls() {
 		$options = get_option( 'setmoreplus' );
 		?>
+		<div class="table-wrapper">
 		<div id="staff-urls" class="table">
 		<div class="row staff-header">
 			<div class="cell staff-ids"><?php _e( 'ID' ); ?></div>
-			<div class="cell"><?php _e( 'Staff Name', 'setmore-plus' ); ?></div>
+			<div class="cell staff-name"><?php _e( 'Staff Name', 'setmore-plus' ); ?></div>
 			<div class="cell"><?php _e( 'Staff Booking Page URL', 'setmore-plus' ); ?></div>
+			<div class="cell"></div>
 		</div>
 		<?php
 		if ( $options['staff_urls'] ) {
@@ -289,9 +326,10 @@ class SetmorePlus {
 		}
 		?>
 		</div>
+		</div>
 		<p><input type="button" class="button" id="add-url" value="<?php _e( 'Add New', 'setmore-plus' ); ?>"></p>
 
-		<p>
+		<p class="description">
 			<?php printf( wp_kses( __( 'To find your individual Staff Booking Pages, <a href="%s" target="_blank">sign in to Setmore</a> and navigate to <b>Settings > Staff</b>.', 'setmore-plus' ), array( 'a' => array( 'href' => array(), 'target' => array(), 'class' => array() ), 'b' => array() ) ), esc_url( 'http://my.setmore.com' ) ); ?>
 		</p>
 		<?php
@@ -320,20 +358,169 @@ class SetmorePlus {
 		<?php
 	}
 
-	public function render_setting_width() {
-		$options = get_option( 'setmoreplus' );
+	public function render_app_examples() {
 		?>
-		<div>
-			<input type="text" id="setmoreplus_width" class="four-digits" name="setmoreplus[width]" value="<?php echo $options['width']; ?>" />&nbsp;px
+		<p>The scheduler has three similar versions depending on the width of the popup or embed frame. <a id="openGallery" href="#">See examples</a>.</p>
+		<table class="sizes">
+			<tr>
+				<th>Size</th>
+				<th>Intended Use</th>
+				<th>Width</th>
+			</tr>
+			<tr>
+				<td>Small</td>
+				<td>mobile devices</td>
+				<td>less than 582 pixels, at least 320 pixels recommended</td>
+			</tr>
+			<tr>
+				<td>Medium</td>
+				<td>desktops</td>
+				<td>at least 582 pixels</td>
+			</tr>
+			<tr>
+				<td>Large</td>
+				<td>desktop full-width pages</td>
+				<td>at least 873 pixels</td>
+			</tr>
+		</table>
+		<div style="display: none;">
+			<a href="<?php echo SETMOREPLUS_IMAGES; ?>SetmorePlus-small.png" class="screenshot" title="<?php _e( 'Small', 'setmore-plus' ); ?>">Small</a>
+			<a href="<?php echo SETMOREPLUS_IMAGES; ?>SetmorePlus-medium.png" class="screenshot" title="<?php _e( 'Medium', 'setmore-plus' ); ?>">Medium</a>
+			<a href="<?php echo SETMOREPLUS_IMAGES; ?>SetmorePlus-large.png" class="screenshot" title="<?php _e( 'Large', 'setmore-plus' ); ?>">Large</a>
 		</div>
 		<?php
 	}
 
-	public function render_setting_height() {
-		$options = get_option( 'setmoreplus' );
+	public function render_setting_popup_dimensions() {
+		$options  = get_option( 'setmoreplus' );
+		$defaults = $this->get_defaults();
 		?>
-		<div>
-			<input type="text" id="setmoreplus_height" class="four-digits" name="setmoreplus[height]" value="<?php echo $options['height']; ?>" />&nbsp;px
+		<p class="">When using <code>[setmoreplus link]</code> or <code>[setmoreplus button]</code>:</p>
+		<div id="setmoreplus_popup_dimensions">
+			<table class="dimensions">
+				<tr>
+					<td></td>
+					<td>Width</td>
+					<td>Height</td>
+				</tr>
+				<tr>
+					<td>Desktop</td>
+					<td>
+						<label>
+							<input id="setmoreplus_width" type="text" name="setmoreplus[width]"
+							       value="<?php echo $options['width']; ?>"
+							       data-default="<?php echo $defaults['width']; ?>"
+							       data-current="<?php echo $options['width']; ?>"
+							       class="four-digits next-to-select">
+						</label>
+						<label>
+							<select name="setmoreplus[width_p]"
+							        data-default="<?php echo $defaults['width_p']; ?>"
+							        data-target="setmoreplus_width"
+							        class="pxpct">
+								<option value="px" <?php selected( $options['width_p'], 'px' ); ?>>pixels</option>
+								<option value="%" <?php selected( $options['width_p'], '%' ); ?>>percent</option>
+							</select>
+						</label>
+					</td>
+					<td>
+						<label>
+							<input id="setmoreplus_height" type="text" name="setmoreplus[height]"
+							       value="<?php echo $options['height']; ?>"
+							       data-default="<?php echo $defaults['height']; ?>"
+							       data-current="<?php echo $options['height']; ?>"
+							       class="four-digits next-to-select">
+						</label>
+						<label>
+							<select name="setmoreplus[height_p]"
+							        data-default="<?php echo $defaults['height_p']; ?>"
+							        data-target="setmoreplus_height"
+							        class="pxpct">
+								<option value="px" <?php selected( $options['height_p'], 'px' ); ?>>pixels</option>
+								<option value="%" <?php selected( $options['height_p'], '%' ); ?>>percent</option>
+							</select>
+						</label>
+					</td>
+				<tr>
+					<td>Mobile</td>
+					<td colspan="2">
+						100% <b>screen</b> width and height below
+						<label><input type="text" name="setmoreplus[mobile_breakpoint]"
+						              value="<?php echo $options['mobile_breakpoint']; ?>"
+						              data-default="<?php echo $defaults['mobile_breakpoint']; ?>"
+						              class="four-digits"> pixels</label>
+					</td>
+				</tr>
+			</table>
+			<p><input type="button" class="button secondary restore-defaults" value="<?php _e( 'Restore Defaults', 'setmore-plus' ); ?>"></p>
+		</div>
+		<?php
+	}
+
+	public function render_setting_embed_dimensions() {
+		$options  = get_option( 'setmoreplus' );
+		$defaults = $this->get_defaults();
+		?>
+		<p>When using <code>[setmoreplus]</code> to embed the scheduler directly in a page:</p>
+		<div id="setmoreplus_embed_dimensions">
+			<table class="dimensions">
+				<tr>
+					<td></td>
+					<td>Width</td>
+					<td>Height</td>
+				</tr>
+				<tr>
+					<td>Desktop</td>
+					<td>
+						<label>
+							<input id="setmoreplus_embed_desktop_width" type="text" name="setmoreplus[embed_desktop_width]"
+							       value="<?php echo $options['embed_desktop_width']; ?>"
+							       data-default="<?php echo $defaults['embed_desktop_width']; ?>"
+							       data-current="<?php echo $options['embed_desktop_width']; ?>"
+							       class="four-digits next-to-select">
+						</label>
+						<label>
+							<select name="setmoreplus[embed_desktop_width_p]"
+							        data-default="<?php echo $defaults['embed_desktop_width_p']; ?>"
+							        data-target="setmoreplus_embed_desktop_width"
+							        class="pxpct">
+								<option value="px" <?php selected( $options['embed_desktop_width_p'], 'px' ); ?>>pixels</option>
+								<option value="%" <?php selected( $options['embed_desktop_width_p'], '%' ); ?>>percent</option>
+							</select>
+						</label>
+					</td>
+					<td>
+						<label>
+							<input id="setmoreplus_embed_desktop_height" type="text" name="setmoreplus[embed_desktop_height]"
+							       value="<?php echo $options['embed_desktop_height']; ?>"
+							       data-default="<?php echo $defaults['embed_desktop_height']; ?>"
+							       data-current="<?php echo $options['embed_desktop_height']; ?>"
+							       class="four-digits"> pixels
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>Mobile</td>
+					<td>
+						<label>
+							100% <b>container</b> width below
+							<input type="text" name="setmoreplus[embed_mobile_breakpoint]"
+						              value="<?php echo $options['embed_mobile_breakpoint']; ?>"
+						              data-default="<?php echo $defaults['embed_mobile_breakpoint']; ?>"
+						              class="four-digits"> pixels
+						</label>
+					</td>
+					<td>
+						<label>
+							<input id="setmoreplus_embed_mobile_height" type="text" name="setmoreplus[embed_mobile_height]"
+							       value="<?php echo $options['embed_mobile_height']; ?>"
+							       data-default="<?php echo $defaults['embed_mobile_height']; ?>"
+							       class="four-digits"> pixels
+						</label>
+					</td>
+				</tr>
+			</table>
+			<p><input type="button" class="button secondary restore-defaults" value="<?php _e( 'Restore Defaults', 'setmore-plus' ); ?>"></p>
 		</div>
 		<?php
 	}
@@ -351,7 +538,7 @@ class SetmorePlus {
 				</option>
 			</select>
 
-			<p>
+			<p class="description">
 				<?php _e( '<strong>Normal</strong> works well in the majority of cases.', 'setmore-plus' ); ?>
 				<?php _e( 'Try <strong>Priority</strong> if your Setmore link fails to produce a popup.', 'setmore-plus' ); ?>
 			</p>
@@ -372,7 +559,7 @@ class SetmorePlus {
 				</option>
 			</select>
 
-			<p class="help">
+			<p class="description">
 				<?php _e( 'Deactivating this plugin will not delete anything.', 'setmore-plus' ); ?>
 			</p>
 		</div>
@@ -462,8 +649,13 @@ class SetmorePlus {
 		}
 		else {
 
-			// load an iframe in the page
-			$html = sprintf( '<iframe src="%s" width="%s" height="%s" frameborder="0"></iframe>', $url, $options['width'], $options['height'] );
+			// embed an iframe in the page
+			$html = sprintf( '<iframe class="setmore-iframe" src="%s" width="%s" height="%s" frameborder="0"></iframe>',
+				$url,
+				$options['embed_desktop_width'] . ('%' == $options['embed_desktop_width_p'] ? '%' : '' ),
+				$options['embed_desktop_height'] );
+
+			$html .= '<style>@media only screen and (max-width: ' . $options['embed_mobile_breakpoint'] . 'px) { iframe.setmore-iframe { width: 100%; } }</style>';
 
 		}
 		return $html;
@@ -507,8 +699,9 @@ class SetmorePlus {
 			'iframe'      => true,
 			'transition'  => 'elastic',
 			'speed'       => 200,
-			'height'      => $options['height'],
-			'width'       => $options['width'],
+			'height'      => $options['height'] . $options['height_p'],
+			'width'       => $options['width'] . $options['width_p'],
+			'breakpoint'  => $options['mobile_breakpoint'],
 			'opacity'     => 0.8,
 			'returnFocus' => false,
 			'rel'         => false,

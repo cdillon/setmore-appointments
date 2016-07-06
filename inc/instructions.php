@@ -37,10 +37,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td><p><?php _e( 'For a <b>menu link</b>', 'setmore-plus' ); ?>
-				(<a href="<?php echo dirname( plugin_dir_url( __FILE__ ) ); ?>/images/SetmorePlus-menu-link.png"
-			    class="colorbox"><?php _e( 'screenshot', 'setmore-plus' ); ?></a>)</p>
-				<div id="menu-link-screenshot" style="display: none;"><img src="<?php echo dirname( plugin_dir_url( __FILE__ ) ); ?>/images/SetmorePlus-menu-link.png"></div>
+			<td>
+				<p>
+					<?php _e( 'For a <b>menu link</b>', 'setmore-plus' ); ?>
+					(<a href="<?php echo SETMOREPLUS_IMAGES; ?>SetmorePlus-menu-link.png" class="screenshot-menu-link"><?php _e( 'screenshot', 'setmore-plus' ); ?></a>)
+				</p>
 			</td>
 			<td>
 				<ol>
@@ -71,11 +72,11 @@
 			<td class="code">[setmoreplus button]<?php _e( 'Make an appointment today!', 'setmore-plus' ); ?>[/setmoreplus]</td>
 		</tr>
 		<tr>
-			<td><p><?php _e( 'and/or add a CSS class from your theme or custom CSS.', 'setmore-plus' ); ?></p></td>
+			<td><p><?php _e( 'and/or add CSS classes from your theme or custom CSS.', 'setmore-plus' ); ?></p></td>
 			<td class="code">
-				[setmoreplus button class="blue"]
+				[setmoreplus button class="class-1 class-2"]
 				<br>
-				[setmoreplus link class="red"]
+				[setmoreplus link class="class-1 class-2"]
 			</td>
 		</tr>
 		<tr>
@@ -86,19 +87,3 @@
 	</table>
 
 </div>
-
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$("a.colorbox").colorbox({
-			'iframe': true,
-			'transition': 'elastic',
-			'title': 'screenshot',
-			'speed': 200,
-			'opacity': 0.8,
-			'height': 830 * 0.9,
-			'width': 1058 * 0.9,
-			'returnFocus': false,
-			'rel': false
-		});
-	});
-</script>
