@@ -3,7 +3,7 @@ Contributors: cdillon27
 Donate link: https://www.wpmission.com/donate/
 Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.5.3
+Tested up to: 4.6
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -117,8 +117,11 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 == Changelog ==
 
+= 3.6.1 =
+* Add version number in HTML comment for troubleshooting.
+
 = 3.6 =
-* Improve responsiveness so the proper schedular size is loaded from Setmore.com.
+* Improve responsiveness so the proper scheduler size is loaded from Setmore.com.
 * Separate popup dimensions from embed (iframe) dimensions.
 * Add screenshots of Setmore scheduler sizes.
 

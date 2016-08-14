@@ -3,7 +3,7 @@
  * Plugin Name: Setmore Plus
  * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.6
+ * Version: 3.6.1
  * Author: Chris Dillon
  * Author URI: https://www.wpmission.com
  * Text Domain: setmore-plus
@@ -65,7 +65,7 @@ class SetmorePlus {
 		}
 
 		add_action( 'init', array( $this, 'register_shortcodes' ) );
-
+		add_action( 'wp_head', array( $this, 'show_version_info' ), 999 );
 		add_filter( 'no_texturize_shortcodes', array( $this, 'shortcodes_to_exempt_from_wptexturize' ) );
 
 		add_action( 'widgets_init', array( $this, 'register_widget' ) );
@@ -444,11 +444,13 @@ class SetmorePlus {
 				<tr>
 					<td>Mobile</td>
 					<td colspan="2">
-						100% <b>screen</b> width and height below
-						<label><input type="text" name="setmoreplus[mobile_breakpoint]"
+						<label>
+							100% <b>screen</b> width and height below
+							<input type="text" name="setmoreplus[mobile_breakpoint]"
 						              value="<?php echo $options['mobile_breakpoint']; ?>"
 						              data-default="<?php echo $defaults['mobile_breakpoint']; ?>"
-						              class="four-digits"> pixels</label>
+						              class="four-digits"> pixels
+						</label>
 					</td>
 				</tr>
 			</table>
@@ -742,6 +744,35 @@ class SetmorePlus {
 			}
 		}
 		return $atts;
+	}
+
+	/**
+	 * Show version number in <head> section.
+	 *
+	 * For troubleshooting only.
+	 *
+	 * @since 3.6.1
+	 */
+	function show_version_info() {
+		global $wp_version;
+		$plugin_info = $this->get_plugin_info();
+		$comment = array(
+			'WordPress ' . $wp_version,
+			$plugin_info['name'] . ' ' . $plugin_info['version'],
+		);
+
+		echo "\n" . '<!-- versions: ' . implode( ' | ', $comment ) . ' -->' . "\n";
+	}
+
+	/**
+	 * Return plugin info.
+	 *
+	 * @since 3.6.1
+	 *
+	 * @return array
+	 */
+	public function get_plugin_info() {
+		return get_file_data( __FILE__, array( 'name' => 'Plugin Name', 'version' => 'Version' ) );
 	}
 
 }
