@@ -1,10 +1,10 @@
 === Setmore Plus ===
 Contributors: cdillon27
 Donate link: https://www.wpmission.com/donate/
-Tags: appointments, book, booking, calendar, salon, spa, schedule, scheduling
+Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.6
-Stable tag: trunk
+Tested up to: 4.7
+Stable tag: 3.6.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
