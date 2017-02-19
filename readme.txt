@@ -15,7 +15,7 @@ Setmore Plus by [WP Mission](https://www.wpmission.com) is a modern, feature-ric
 
 You can easily add individual staff booking pages and multiple languages.
 
-> [See demos of various options here!](http://demos.wpmission.com/setmore-plus/)**
+> [See demos of various options here!](http://demos.wpmission.com/setmore-plus/)
 
 = About Setmore Appointments =
 
