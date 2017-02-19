@@ -1,5 +1,5 @@
 /**
- * Setmore Plus main script
+ * Setmore Plus script
  */
 jQuery(document).ready(function ($) {
 
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
 		// Specific elements.
 		$(".widget .setmore-iframe")
 			.add("a.setmore-iframe")
-			.add("input.setmore-iframe")
+			.add("button.setmore-iframe")
 			.add("li.setmore-iframe > a")
 			.add('a[href$="#setmoreplus"]')
 			.colorbox(setmoreplus);

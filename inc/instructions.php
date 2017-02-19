@@ -28,6 +28,15 @@
 			</td>
 			<td class="code">[setmoreplus button]</td>
 		</tr>
+        <tr>
+            <td>
+                <p><?php _e( 'To select a language', 'setmore-plus' ); ?></p>
+                <p class="lang-wrap"><em>
+                    <?php echo implode( ', ', array_keys( Setmore_Plus::get_lang() ) ); ?>
+                </em></p>
+            </td>
+            <td class="code">[setmoreplus lang=russian]</td>
+        </tr>
 		<tr>
 			<td><p><?php _e( 'To select a Staff Booking Page', 'setmore-plus' ); ?></p></td>
 			<td class="code">
@@ -55,9 +64,9 @@
 		</tr>
 		<tr>
 			<td><p><?php _e( 'To add the popup scheduler to a <b>plain URL</b>, append <code>#setmoreplus</code>', 'setmore-plus' ); ?></p>
-				<p><?php _e( 'For example, if your theme already has a "Book Appointment"<br>button and you can only enter your URL.', 'setmore-plus' ); ?></p></td>
+				<p><?php _e( 'For example, if your theme already has a "Book Appointment" option and you can only enter your URL.', 'setmore-plus' ); ?></p></td>
 			<td>
-				<p><code>http://{booking page URL}#setmoreplus</code></p>
+				<p><code><span style="color: #777;">http://example.setmore.com</span>#setmoreplus</code></p>
 			</td>
 		</tr>
 		</tbody>

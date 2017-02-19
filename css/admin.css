@@ -226,3 +226,7 @@ table.dimensions input.next-to-select {
 .wrap .setmore-instructions td p {
 	margin: 0.5em !important;
 }
+
+.lang-wrap {
+	max-width: 600px;
+}

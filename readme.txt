@@ -1,20 +1,21 @@
 === Setmore Plus ===
 Contributors: cdillon27
-Donate link: https://www.wpmission.com/donate/
 Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.7
-Stable tag: 3.6.1
+Tested up to: 4.7.2
+Stable tag: 3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Allow your customers to make appointments online using the setmore.com service. Now works with individual staff booking pages.
+Allow your customers to make appointments online using the setmore.com service with optional languages and staff booking pages.
 
 == Description ==
 
 Setmore Plus by [WP Mission](https://www.wpmission.com) is a modern, feature-rich plugin to quickly add the [Setmore Appointments](http://setmore.com) scheduler to your site.
 
-**[See demos of various options here!](http://demos.wpmission.com/setmore-plus/)**
+You can easily add individual staff booking pages and multiple languages.
+
+> [See demos of various options here!](http://demos.wpmission.com/setmore-plus/)**
 
 = About Setmore Appointments =
 
@@ -38,20 +39,11 @@ The widget and shortcode also work with individual staff booking pages. Full ins
 
 *This plugin is offered by [WP Mission](https://www.wpmission.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
 
-We do, however, provide lifetime support for this plugin, including free help getting the "Book Appointment" button to match your theme.
-
-This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. Guaranteed. However, simply deactivating it will leave your settings in place, as expected.
-
-= Recommended =
-
-* [Simple Custom CSS](https://wordpress.org/plugins/simple-custom-css/) for quick CSS tweaks.
-* [Wider Admin Menu](http://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e.
+This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. However, simply deactivating it will leave your settings in place, as expected.
 
 = Translations =
 
 * Spanish (es_ES) - Richy Canello
-
-Did you know you can help by [translating phrases here](https://translate.wordpress.org/projects/wp-plugins/setmore-plus)? Even just a few phrases would help.
 
 == Installation ==
 
@@ -74,7 +66,6 @@ Finally, activate the plugin.
 
 Need help? Use the [support forum](http://wordpress.org/support/plugin/strong-testimonials) or [contact me](https://www.wpmission.com/contact/).
 
-
 == Frequently Asked Questions ==
 
 = How do I get a Setmore account? =
@@ -85,7 +76,7 @@ Visit [Setmore](http://setmore.com) to get your free account. A [premium plan](h
 
 In the widget, you can select the default image button, a trendy flat button, or a plain link.
 
-To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Modular Custom CSS](https://wordpress.org/plugins/modular-custom-css/).
+To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Simple Custom CSS](https://wordpress.org/plugins/simple-custom-css/).
 
 For example, here's a square blue button with white text:
 `
@@ -106,7 +97,11 @@ a.setmore:hover {
 }
 `
 
-Need help? Use the [support forum](http://wordpress.org/support/plugin/setmore-plus) or [contact me](https://www.wpmission.com/support).
+Need help? Use the [support forum](https://wordpress.org/support/plugin/setmore-plus) or [contact me](https://www.wpmission.com/support).
+
+= Can I use different languages? =
+
+Yes. Setmore.com supports 31 languages. You can select the default language for your site and also select a specific language for each shortcode or widget.
 
 = Leave no trace? What's that about? =
 
@@ -114,8 +109,13 @@ Some plugins and themes don't fully uninstall everything they installed - things
 
 So this plugin has an option to completely remove itself upon deletion. Simply deactivating the plugin will leave the settings intact.
 
-
 == Changelog ==
+
+= 3.7 =
+* Add a preferred language option.
+* Add language option to the widget.
+* Add `lang` shortcode attribute.
+* Improved performance.
 
 = 3.6.1 =
 * Add version number in HTML comment for troubleshooting.
@@ -181,5 +181,5 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 == Upgrade Notice ==
 
-= 3.4 =
-Now offers individual staff booking pages. New Spanish translation.
+= 3.7 =
+New language options. Setmore.com supports 31 languages!
