@@ -2,7 +2,7 @@
 Contributors: cdillon27
 Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: 3.7.1
 Requires PHP: 5.2
 License: GPLv3 or later
@@ -12,7 +12,7 @@ Your customers can make appointments online using the setmore.com service.
 
 == Description ==
 
-Setmore Plus is a modern, feature-rich plugin to quickly add a [Setmore Appointments](http://setmore.com) scheduler to your site.
+Quickly add a [Setmore Appointments](http://setmore.com) scheduler to your site using this modern, feature-rich plugin.
 
 You can easily set up individual staff booking pages and use multiple languages.
 
@@ -39,8 +39,6 @@ After entering your unique Setmore URL, to display the scheduler on your site:
 * create a **menu link** that opens the scheduler in a popup window
 
 The widget and shortcode also work with individual staff booking pages. Full instructions are included.
-
-*This plugin is offered by [Strong Plugins](https://strongplugins.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
 
 This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. However, simply deactivating it will leave your settings in place, as expected.
 
@@ -86,8 +84,8 @@ In the widget, you can select the default image button, a trendy flat button, or
 To create a custom button, select the plain link option, then add style rules for `a.setmore` in your theme's stylesheet or custom CSS function, or try [Simple Custom CSS](https://wordpress.org/plugins/simple-custom-css/).
 
 For example, here's a square blue button with white text:
-`
-a.setmore {
+
+`a.setmore {
 	background: #4372AA;
 	color: #eee;
 	display: inline-block;
@@ -101,8 +99,7 @@ a.setmore:hover {
 	background: #769CC9;
 	color: #fff;
 	text-decoration: none;
-}
-`
+}`
 
 Need help? Use the [support forum](https://wordpress.org/support/plugin/setmore-plus) or submit a [support ticket](https://support.strongplugins.com/new-ticket).
 
@@ -117,6 +114,9 @@ Some plugins and themes don't fully uninstall everything they installed - things
 So this plugin has an option to completely remove itself upon deletion. Simply deactivating the plugin will leave the settings intact.
 
 == Changelog ==
+
+= 3.7.1 =
+* Update URLs.
 
 = 3.7 =
 * Add a preferred language option.
