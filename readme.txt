@@ -2,46 +2,55 @@
 Contributors: cdillon27
 Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.7.2
-Stable tag: 3.7
+Tested up to: 4.8
+Stable tag: 3.7.1
+Requires PHP: 5.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Allow your customers to make appointments online using the setmore.com service with optional languages and staff booking pages.
+Your customers can make appointments online using the setmore.com service.
 
 == Description ==
 
-Setmore Plus by [WP Mission](https://www.wpmission.com) is a modern, feature-rich plugin to quickly add the [Setmore Appointments](http://setmore.com) scheduler to your site.
+Setmore Plus is a modern, feature-rich plugin to quickly add a [Setmore Appointments](http://setmore.com) scheduler to your site.
 
-You can easily add individual staff booking pages and multiple languages.
+You can easily set up individual staff booking pages and use multiple languages.
 
-> [See demos of various options here!](http://demos.wpmission.com/setmore-plus/)
+**[Go Demo](https://strongdemos.com/setmore-plus/)**
 
-= About Setmore Appointments =
+*This plugin is offered by [Strong Plugins](https://strongplugins.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
+
+### About Setmore Appointments
 
 Setmore helps you manage appointments, schedules, and customers, all through an easy-to-use web application. Your customers can book online, and pick their favorite staff, service and time-slot without picking up the phone.
 
-= Getting started with a free account =
+#### Getting started with a free account
 
-Signing up is easy, fast and you don't need a credit card to get started. Once you have an account you'll be ready to take appointments.
+Signing up is easy and fast. You don't need a credit card to get started. Start taking appointments right away.
 
 Learn more and get a free Setmore account at [Setmore.com](http://setmore.com).
 
-= Add Setmore to your site =
+### Add Setmore to your site
 
-After entering your main booking page URL provided by Setmore, to display the scheduler on your site:
+After entering your unique Setmore URL, to display the scheduler on your site:
 
 * use a **widget** to place a "Book Appointments" button in a sidebar area
-* use the **shortcode** to embed the Setmore scheduler directly in a page or add a link or a button that opens the scheduler in a popup window
-* create a **menu link** that opens the scheduler popup
+* use the **shortcode** to embed the Setmore scheduler directly in a page, or add a link or a button that opens the scheduler in a popup window
+* create a **menu link** that opens the scheduler in a popup window
 
 The widget and shortcode also work with individual staff booking pages. Full instructions are included.
 
-*This plugin is offered by [WP Mission](https://www.wpmission.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
+*This plugin is offered by [Strong Plugins](https://strongplugins.com). We have no affiliation with Setmore Appointments and provide no technical support for their service.*
 
 This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. However, simply deactivating it will leave your settings in place, as expected.
 
-= Translations =
+### Try these plugins too
+
+* [Strong Testimonials](https://wordpress.org/plugins/strong-testimonials/) to receive and display testimonials.
+* [Simple Custom CSS](https://wordpress.org/plugins/simple-custom-css/) still works great for quick CSS tweaks.
+* [Wider Admin Menu](https://wordpress.org/plugins/wider-admin-menu/) lets your admin menu b r e a t h e.
+
+### Translations
 
 * Spanish (es_ES) - Richy Canello
 
@@ -64,13 +73,11 @@ Finally, activate the plugin.
 1. Paste that URL into the `Setmore Booking URL` field in WordPress.
 1. Add the widget to a sidebar, the shortcode to a page, or a custom link to a menu.
 
-Need help? Use the [support forum](http://wordpress.org/support/plugin/strong-testimonials) or [contact me](https://www.wpmission.com/contact/).
-
 == Frequently Asked Questions ==
 
 = How do I get a Setmore account? =
 
-Visit [Setmore](http://setmore.com) to get your free account. A [premium plan](http://www.setmore.com/premium) with more features is also available.
+Visit [Setmore.com](http://setmore.com) to get your free account. A [premium plan](http://www.setmore.com/premium) with more features is also available.
 
 = How do I change the "Book Appointment" button? =
 
@@ -97,7 +104,7 @@ a.setmore:hover {
 }
 `
 
-Need help? Use the [support forum](https://wordpress.org/support/plugin/setmore-plus) or [contact me](https://www.wpmission.com/support).
+Need help? Use the [support forum](https://wordpress.org/support/plugin/setmore-plus) or submit a [support ticket](https://support.strongplugins.com/new-ticket).
 
 = Can I use different languages? =
 
@@ -176,10 +183,4 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 * Using Colorbox for iframe lightbox.
 * Ready for internationalization (i18n).
 
-= 1.0 =
-* This is the first version.
-
 == Upgrade Notice ==
-
-= 3.7 =
-New language options. Setmore.com supports 31 languages!
