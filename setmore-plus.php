@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: Setmore Plus
- * Plugin URI: https://www.wpmission.com/plugins/setmore-plus
+ * Plugin URI: https://strongplugins.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.7
+ * Version: 3.7.1
  * Author: Chris Dillon
- * Author URI: https://www.wpmission.com
+ * Author URI: https://strongplugins.com
  * Text Domain: setmore-plus
  * Requires: 3.5 or higher
  * License: GPLv3 or later
  *
- * Copyright 2014-2017  Chris Dillon  chris@wpmission.com
+ * Copyright 2014-2017  Chris Dillon  chris@strongplugins.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -395,7 +395,8 @@ class Setmore_Plus {
 		// Determine scheme.
 		// If local dev, use http unless adding lang
 		// Otherwise, use https
-		$scheme = '127.0.0.1' == $_SERVER['SERVER_ADDR'] && !$lang ? 'http://' : 'https://';
+		//$scheme = '127.0.0.1' == $_SERVER['SERVER_ADDR'] && !$lang ? 'http://' : 'https://';
+		$scheme = 'https://';
 
 		// Prepend correct scheme.
 		$url = parse_url( $url, PHP_URL_SCHEME ) === null ? $scheme . $url : $url;
