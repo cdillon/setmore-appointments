@@ -42,6 +42,16 @@ The widget and shortcode also work with individual staff booking pages. Full ins
 
 This plugin can *leave no trace!* If you delete the plugin, all settings will be removed from the database. However, simply deactivating it will leave your settings in place, as expected.
 
+### Privacy and GDPR
+
+This plugin embeds the content of the Setmore online app in an iFrame. It stores the URL for your public setmore.com booking page, the same URL you can enter into any browser to access your Setmore scheduler.
+
+It does not store your setmore.com login credentials, account information or any other private data.
+
+It does not store any visitor data.
+
+By using the embedded Setmore scheduler, you will be agreeing to Setmore's [Terms of Use](https://www.setmore.com/#terms-of-use).
+
 ### Try these plugins too
 
 * [Strong Testimonials](https://wordpress.org/plugins/strong-testimonials/) to receive and display testimonials.
