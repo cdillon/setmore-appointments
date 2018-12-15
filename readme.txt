@@ -2,8 +2,8 @@
 Contributors: cdillon27
 Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 4.9
-Stable tag: 3.7.1
+Tested up to: 5
+Stable tag: 3.7.2
 Requires PHP: 5.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -125,6 +125,10 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 
 == Changelog ==
 
+= 3.7.2 =
+* Replace use of `extract` in shortcode attribute processing.
+* Test in WordPress version 5.
+
 = 3.7.1 =
 * Update URLs.
 
@@ -194,3 +198,5 @@ So this plugin has an option to completely remove itself upon deletion. Simply d
 * Ready for internationalization (i18n).
 
 == Upgrade Notice ==
+
+Improved adherence to WordPress coding standards.
