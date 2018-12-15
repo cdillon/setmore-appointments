@@ -3,14 +3,14 @@
  * Plugin Name: Setmore Plus
  * Plugin URI: https://strongplugins.com/plugins/setmore-plus
  * Description: Easy online appointments with a widget, shortcode, or menu link.
- * Version: 3.7.1
+ * Version: 3.7.2
  * Author: Chris Dillon
  * Author URI: https://strongplugins.com
  * Text Domain: setmore-plus
  * Requires: 3.5 or higher
  * License: GPLv3 or later
  *
- * Copyright 2014-2017  Chris Dillon  chris@strongplugins.com
+ * Copyright 2014-2019  Chris Dillon  chris@strongwp.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -247,7 +247,8 @@ class Setmore_Plus {
 	}
 
 	public function render_popup( $atts, $content = '' ) {
-		extract( shortcode_atts(
+		// TODO Without using extract
+		$atts = shortcode_atts(
 			array(
 				'button' => '',
 				'link'   => '',
@@ -256,7 +257,7 @@ class Setmore_Plus {
                 'lang'   => '',
 			),
 			$this->normalize_empty_atts( $atts ), 'setmoreplus'
-		) );
+		);
 
 		$options = get_option( 'setmoreplus' );
 		$url     = $options['url'];
@@ -268,7 +269,7 @@ class Setmore_Plus {
 		 * .setmore : style only
 		 * .setmore-iframe : for Colorbox
 		 */
-		$classes = join( ' ', array_merge( array( 'setmore', 'setmore-iframe' ), explode( ' ', $class ) ) );
+		$classes = join( ' ', array_merge( array( 'setmore', 'setmore-iframe' ), explode( ' ', $atts['class'] ) ) );
 
 		/**
 		 * Language
@@ -277,7 +278,8 @@ class Setmore_Plus {
 		 */
         $lang_code = get_bloginfo( 'language' );
         // Shortcode attribute takes precedence
-        if ( !$lang ) {
+		$lang = $atts['lang'];
+        if ( ! $lang ) {
 			if ( $options['lang'] ) {
 				$lang = $options['lang'];
 			} elseif ( isset( self::$lang_codes[ $lang_code ] ) ) {
@@ -291,16 +293,16 @@ class Setmore_Plus {
 		}
 
         // Filter will find staff URL, add lang, and force https.
-		$url = apply_filters( 'setmoreplus_url', $url, $staff, $lang );
+		$url = apply_filters( 'setmoreplus_url', $url, $atts['staff'], $lang );
 
 		/**
 		 * Assemble the HTML
 		 */
-		if ( $link ) {
+		if ( $atts['link'] ) {
 
 			$html = sprintf( '<a class="%s" href="%s">%s</a>', $classes, $url, $content );
 
-		} elseif ( $button ) {
+		} elseif ( $atts['button'] ) {
 
 			// href is not a valid attribute for <button> but Colorbox needs it to load the target page
 			$html = sprintf( '<button class="%s" href="%s">%s</button>', $classes, $url, $content );
@@ -326,7 +328,6 @@ class Setmore_Plus {
 	 * @param $url
 	 * @param string $staff
 	 * @param string $lang
-	 * @since 4.0.0
 	 *
 	 * @return mixed
 	 */
@@ -393,6 +394,7 @@ class Setmore_Plus {
 		$url = str_replace( array( 'http://', 'https://' ), array( '', '' ), $url );
 
 		// Determine scheme.
+		// TODO Remove localhost code
 		// If local dev, use http unless adding lang
 		// Otherwise, use https
 		//$scheme = '127.0.0.1' == $_SERVER['SERVER_ADDR'] && !$lang ? 'http://' : 'https://';
@@ -470,14 +472,12 @@ class Setmore_Plus {
 	 * @since 3.6.1
 	 */
 	function show_version_info() {
-		global $wp_version;
 		$version = get_option( 'setmoreplus_version');
 		$comment = array(
-			'WordPress ' . $wp_version,
 			'Setmore Plus ' . $version,
 		);
 
-		echo "<!-- versions: " . implode( ' | ', $comment ) . " -->\n";
+		echo "<!-- " . implode( ' | ', $comment ) . " -->\n";
 	}
 
 	/**
