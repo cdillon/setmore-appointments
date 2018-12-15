@@ -2,7 +2,7 @@
 Contributors: cdillon27
 Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
 Requires at least: 3.5
-Tested up to: 5
+Tested up to: 5.0
 Stable tag: 3.7.2
 Requires PHP: 5.2
 License: GPLv3 or later
