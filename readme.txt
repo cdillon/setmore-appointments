@@ -1,6 +1,6 @@
 === Setmore Plus ===
 Contributors: cdillon27
-Tags: appointments, booking, calendar, salon, spa, schedule, scheduling
+Tags: appointments, booking, calendar, salon, spa, schedule, scheduling, adopt-me
 Requires at least: 3.5
 Tested up to: 5.0
 Stable tag: 3.7.2
@@ -11,6 +11,8 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Your customers can make appointments online using the setmore.com service.
 
 == Description ==
+
+> This plugin is up for adoption.
 
 Quickly add a [Setmore Appointments](http://setmore.com) scheduler to your site using this modern, feature-rich plugin.
 
